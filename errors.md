@@ -66,3 +66,20 @@ ZeroDivisionError: division by zero         ← WHAT went wrong
 ```
 
 **Always read from bottom up!**
+
+---
+
+## Quick Reference
+
+| Error | Common Cause | Fix |
+|-------|--------------|-----|
+| `SyntaxError` | Typo, missing colon, unmatched quotes | Check the line Python points to |
+| `NameError` | Variable not defined or misspelled | Check spelling, define before use |
+| `TypeError` | Wrong type (e.g., `"5" + 3`) | Convert types: `int()`, `float()`, `str()` |
+| `ValueError` | Right type, wrong value (e.g., `int("hello")`) | Validate input before converting |
+| `KeyError` | Dictionary key doesn't exist | Use `.get(key, default)` |
+| `IndexError` | List index out of range | Check `len(list)` before accessing |
+| `FileNotFoundError` | File path is wrong | Check path, use `try/except` |
+| `ZeroDivisionError` | Dividing by zero | Check denominator before dividing |
+
+**Reading errors:** Start from the bottom line (the error type), then look at the line number above it.

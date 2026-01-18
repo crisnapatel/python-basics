@@ -106,6 +106,26 @@ int(-3.9)  # → -3
 ```
 :::
 
+---
+
+## Quick Reference
+
+| Type | Example | Notes |
+|------|---------|-------|
+| `int` | `x = 42` | Whole numbers, no decimals |
+| `float` | `x = 3.14` | Decimal numbers, use `e` for scientific notation |
+| `str` | `x = "hello"` | Text in quotes (single or double) |
+| `bool` | `x = True` | Only `True` or `False` (capital T/F, no quotes) |
+
+**Type Conversion:**
+
+| From → To | Function | Example |
+|-----------|----------|--------|
+| str → int | `int()` | `int("42")` → `42` |
+| str → float | `float()` | `float("3.14")` → `3.14` |
+| number → str | `str()` | `str(42)` → `"42"` |
+| float → int | `int()` | `int(3.9)` → `3` (truncates!) |
+
 ## Next Steps
 
 Continue to [Variables & Operators](variables.md) to learn how to work with these data types.

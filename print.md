@@ -231,6 +231,21 @@ print(f"It's {T} Kelvin")     # Single quote inside double quotes: OK
 print(f'Temperature: {T} K')  # No quotes inside: OK
 ```
 
+---
+
+## Quick Reference
+
+| Format | Syntax | Example | Output |
+|--------|--------|---------|--------|
+| Basic f-string | `f"{var}"` | `f"T = {T}"` | `T = 298.15` |
+| Decimal places | `{var:.Nf}` | `f"{3.14159:.2f}"` | `3.14` |
+| Scientific | `{var:.Ne}` | `f"{6.022e23:.2e}"` | `6.02e+23` |
+| Integer | `{var:d}` | `f"{42:d}"` | `42` |
+| Width (right-align) | `{var:>N}` | `f"{42:>5}"` | `   42` |
+| Width (left-align) | `{var:<N}` | `f"{42:<5}"` | `42   ` |
+| Zero-pad | `{var:0N}` | `f"{42:05}"` | `00042` |
+| Combined | `{var:N.Mf}` | `f"{3.14159:8.2f}"` | `    3.14` |
+
 ## Next Steps
 
 Continue to [Control Flow](control_flow/index.md) to learn about conditionals and loops.

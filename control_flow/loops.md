@@ -122,3 +122,20 @@ while concentration > 0.1:
     concentration = concentration * 0.5
     print(f"C = {concentration}")
 ```
+
+---
+
+## Quick Reference
+
+| Pattern | Syntax | Use When |
+|---------|--------|----------|
+| For loop (count) | `for i in range(n):` | You know how many iterations |
+| For loop (items) | `for x in list:` | Loop through each item |
+| While loop | `while condition:` | Loop until condition is false |
+| range(n) | `range(5)` → 0,1,2,3,4 | Sequence starting from 0 |
+| range(start, stop) | `range(2, 7)` → 2,3,4,5,6 | Sequence from start to stop-1 |
+| range(start, stop, step) | `range(0, 10, 2)` → 0,2,4,6,8 | Sequence with custom step |
+
+## Next Steps
+
+Continue to [Data Structures](../data_structures.md) to learn about lists, dictionaries, and more.

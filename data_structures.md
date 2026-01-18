@@ -340,24 +340,47 @@ Output:
 
 ## Quick Reference
 
-```python
-# List
-temps = [300, 350, 400]
-temps.append(450)
-print(temps[0])
+### Lists
+| Operation | Syntax | Example |
+|-----------|--------|--------|
+| Create | `[item1, item2, ...]` | `temps = [300, 350, 400]` |
+| Access | `list[i]` | `temps[0]` → `300` |
+| Slice | `list[start:end]` | `temps[1:3]` → `[350, 400]` |
+| Append | `list.append(item)` | `temps.append(450)` |
+| Insert | `list.insert(i, item)` | `temps.insert(0, 250)` |
+| Remove | `list.remove(item)` | `temps.remove(350)` |
+| Pop | `list.pop()` | `last = temps.pop()` |
+| Length | `len(list)` | `len(temps)` → `3` |
+| Sort | `sorted(list)` or `list.sort()` | `sorted(temps)` |
 
-# Tuple
-point = (3.5, 2.1)
-x, y = point
+### Tuples
+| Operation | Syntax | Example |
+|-----------|--------|--------|
+| Create | `(item1, item2, ...)` | `point = (3.5, 2.1)` |
+| Access | `tuple[i]` | `point[0]` → `3.5` |
+| Unpack | `a, b = tuple` | `x, y = point` |
 
-# Dictionary
-water = {"MW": 18.015, "Tb": 373.15}
-print(water["MW"])
+### Dictionaries
+| Operation | Syntax | Example |
+|-----------|--------|--------|
+| Create | `{key: value, ...}` | `water = {"MW": 18.0}` |
+| Access | `dict[key]` | `water["MW"]` → `18.0` |
+| Safe access | `dict.get(key, default)` | `water.get("Tc", 0)` |
+| Add/update | `dict[key] = value` | `water["Tb"] = 373` |
+| Delete | `del dict[key]` | `del water["Tb"]` |
+| Keys | `dict.keys()` | `water.keys()` |
+| Values | `dict.values()` | `water.values()` |
+| Items | `dict.items()` | `water.items()` |
 
-# Set
-unique = {1, 2, 3}
-print(2 in unique)
-```
+### Sets
+| Operation | Syntax | Example |
+|-----------|--------|--------|
+| Create | `{item1, item2, ...}` | `elements = {"C", "H", "O"}` |
+| Add | `set.add(item)` | `elements.add("N")` |
+| Union | `a \| b` | `{1,2} \| {2,3}` → `{1,2,3}` |
+| Intersection | `a & b` | `{1,2} & {2,3}` → `{2}` |
+| Difference | `a - b` | `{1,2} - {2,3}` → `{1}` |
+| Membership | `item in set` | `"C" in elements` → `True` |
 
 ## Next Steps
 

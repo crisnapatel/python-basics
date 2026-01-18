@@ -1,8 +1,8 @@
 ---
-title: Common Built-in Functions
+title: Common Functions
 ---
 
-# Common Built-in Functions
+# Common Functions
 
 ## Tools You'll Use Constantly
 
