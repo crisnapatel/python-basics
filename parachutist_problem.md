@@ -8,6 +8,18 @@ Throughout this tutorial, we'll keep coming back to one problem: **a parachutist
 
 By the time you finish this course, you'll be able to simulate this problem yourself.
 
+```{admonition} 🎮 Try the Interactive Simulation
+:class: tip
+
+Want to see Euler's method in action before diving into the math? 
+
+<a href="parachutist_simulation.html" target="_blank" style="display: inline-block; background: #579aca; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 500; margin-top: 8px;">
+▶ Launch Interactive Simulation
+</a>
+
+Adjust mass, drag, and time step to see how numerical solutions work!
+```
+
 ---
 
 ## The Setup

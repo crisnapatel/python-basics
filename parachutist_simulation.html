@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Parachutist Simulation | CHL7002</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Match Jupyter Book typography and colors */
+        :root {
+            --primary-color: #579aca;
+            --primary-dark: #3d7ba8;
+            --text-color: #333;
+            --text-muted: #6c757d;
+            --background: #fff;
+            --surface: #f8f9fa;
+            --border: #e5e7eb;
+            --code-bg: #2b2b2b;
+            --code-text: #f8f8f2;
+            --success: #28a745;
+            --warning: #ffc107;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: var(--background);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header styled like JB */
+        header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 1.5rem 2rem;
+        }
+
+        .header-content {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        h1 {
+            color: var(--text-muted);
+            font-size: 2rem;
+            font-weight: 500;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        /* Main content */
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .intro-box {
+            background: linear-gradient(135deg, #e8f4fc 0%, #f0f7fb 100%);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 2rem;
+        }
+
+        .intro-box h2 {
+            color: var(--primary-color);
+            margin: 0 0 0.5rem 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .intro-box p {
+            margin: 0;
+            color: var(--text-color);
+        }
+
+        /* Grid layout */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Cards */
+        .card {
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card h2 {
+            color: var(--text-muted);
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin: 0 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0 0 0.75rem 0;
+        }
+
+        /* Physics explanation */
+        .equation-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+            font-family: "Times New Roman", serif;
+            font-size: 1.1rem;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        /* Simulation area */
+        .simulation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .jump-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .jump-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .jump-btn:disabled {
+            background: var(--text-muted);
+            cursor: not-allowed;
+        }
+
+        .simulation-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 700px) {
+            .simulation-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Controls */
+        .control-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .control-group label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .control-group .value {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .slider {
+            width: 100%;
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+
+        /* Metrics display */
+        .metrics {
+            background: var(--surface);
+            border-radius: 6px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .metrics-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .metric-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .metric-value {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        /* Sky animation canvas */
+        .sky-container {
+            position: relative;
+            background: linear-gradient(180deg, #87CEEB 0%, #E0F4FF 100%);
+            border-radius: 8px;
+            overflow: hidden;
+            height: 280px;
+            border: 1px solid var(--border);
+        }
+
+        .sky-container canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        .ground {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 20px;
+            background: linear-gradient(180deg, #4a7c59 0%, #3d6b4a 100%);
+        }
+
+        /* Chart container */
+        .chart-container {
+            height: 250px;
+            margin-top: 1.5rem;
+        }
+
+        /* Code block - match JB dark theme */
+        .code-block {
+            background: var(--code-bg);
+            color: var(--code-text);
+            border-radius: 6px;
+            padding: 1rem 1.25rem;
+            overflow-x: auto;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        .code-block .comment { color: #FFD900; }
+        .code-block .keyword { color: #DCC6E0; }
+        .code-block .number { color: #7F4707; }
+        .code-block .operator { color: #ABE338; }
+
+        /* Sidebar cards */
+        .sidebar .card {
+            margin-bottom: 1rem;
+        }
+
+        .tip-card {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+        }
+
+        .tip-card h3 {
+            color: white;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .tip-card p {
+            margin: 0;
+            opacity: 0.95;
+            font-size: 0.9rem;
+        }
+
+        /* Variable key */
+        .var-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .var-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .var-list li:last-child {
+            border-bottom: none;
+        }
+
+        .var-symbol {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--surface);
+            border-radius: 4px;
+            font-weight: 600;
+            color: var(--primary-color);
+            font-family: "Times New Roman", serif;
+            font-size: 1.1rem;
+        }
+
+        /* Terminal velocity indicator */
+        .terminal-indicator {
+            background: var(--surface);
+            border-radius: 6px;
+            padding: 0.75rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+        }
+
+        .terminal-indicator .label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .terminal-indicator .value {
+            font-weight: 600;
+            color: var(--success);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+            margin-top: 2rem;
+        }
+
+        footer a {
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <a href="parachutist_problem.html" class="back-link">← Back to Tutorial</a>
+            <h1>Interactive Parachutist Simulation</h1>
+            <p class="subtitle">Visualizing Euler's Method for CHL7002: Computational Techniques</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="intro-box">
+            <h2>What This Simulation Shows</h2>
+            <p>
+                Adjust the parameters below and watch how Euler's method approximates the parachutist's velocity over time. 
+                The chart shows the same calculation you'll write in Python: starting from rest, stepping through time, 
+                and watching velocity approach terminal velocity.
+            </p>
+        </div>
+
+        <div class="grid">
+            <div class="main-content">
+                
+                <!-- Physics Card -->
+                <div class="card">
+                    <h2>The Governing Equation</h2>
+                    <p>
+                        A falling parachutist experiences gravity pulling down and drag pushing up. 
+                        The balance gives us this differential equation:
+                    </p>
+                    <div class="equation-box">
+                        <strong>dv/dt = g − (c/m) × v</strong>
+                    </div>
+                    <p>
+                        As velocity increases, drag increases too. Eventually they balance: 
+                        acceleration becomes zero and velocity reaches <strong>terminal velocity</strong>.
+                    </p>
+                </div>
+
+                <!-- Simulation Card -->
+                <div class="card">
+                    <div class="simulation-header">
+                        <h2 style="border:none; padding:0; margin:0;">Simulation</h2>
+                        <button id="jumpBtn" class="jump-btn">▶ Jump!</button>
+                    </div>
+
+                    <div class="simulation-grid">
+                        <!-- Controls -->
+                        <div class="controls">
+                            <div class="control-group">
+                                <label>
+                                    <span>Mass (kg)</span>
+                                    <span class="value" id="massVal">68.1</span>
+                                </label>
+                                <input type="range" id="mass" min="40" max="120" step="0.1" value="68.1" class="slider">
+                            </div>
+                            <div class="control-group">
+                                <label>
+                                    <span>Drag coefficient (kg/s)</span>
+                                    <span class="value" id="dragVal">12.5</span>
+                                </label>
+                                <input type="range" id="drag" min="5" max="70" step="0.5" value="12.5" class="slider">
+                            </div>
+                            <div class="control-group">
+                                <label>
+                                    <span>Time step Δt (s)</span>
+                                    <span class="value" id="dtVal">0.5</span>
+                                </label>
+                                <input type="range" id="dt" min="0.1" max="3" step="0.1" value="0.5" class="slider">
+                            </div>
+
+                            <div class="metrics">
+                                <div class="metrics-title">Real-time Values</div>
+                                <div class="metrics-grid">
+                                    <div>
+                                        <div class="metric-label">Time</div>
+                                        <div class="metric-value" id="currentTime">0.0 s</div>
+                                    </div>
+                                    <div>
+                                        <div class="metric-label">Velocity</div>
+                                        <div class="metric-value" id="currentVel">0.0 m/s</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="terminal-indicator">
+                                <span class="label">Terminal velocity (analytical)</span>
+                                <span class="value" id="terminalVel">53.4 m/s</span>
+                            </div>
+                        </div>
+
+                        <!-- Animation -->
+                        <div class="sky-container">
+                            <canvas id="skyCanvas"></canvas>
+                            <div class="ground"></div>
+                        </div>
+                    </div>
+
+                    <!-- Chart -->
+                    <div class="chart-container">
+                        <canvas id="velocityChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Euler Code Card -->
+                <div class="card">
+                    <h2>The Python Code You'll Write</h2>
+                    <p>
+                        This simulation runs the same loop you'll implement. Here's the core of Euler's method:
+                    </p>
+                    <div class="code-block">
+<span class="comment"># Parameters from the textbook</span>
+m = <span class="number">68.1</span>    <span class="comment"># mass in kg</span>
+c = <span class="number">12.5</span>    <span class="comment"># drag coefficient in kg/s</span>
+g = <span class="number">9.8</span>     <span class="comment"># gravitational acceleration in m/s²</span>
+dt = <span class="number">0.5</span>    <span class="comment"># time step in seconds</span>
+
+<span class="comment"># Initial conditions</span>
+v = <span class="number">0</span>       <span class="comment"># starting velocity</span>
+t = <span class="number">0</span>       <span class="comment"># starting time</span>
+
+<span class="comment"># Euler's method loop</span>
+<span class="keyword">while</span> t <span class="operator">&lt;</span> <span class="number">20</span>:
+    <span class="comment"># Calculate the slope (acceleration)</span>
+    dvdt = g <span class="operator">-</span> (c/m) <span class="operator">*</span> v
+    
+    <span class="comment"># Update velocity: v_new = v_old + slope × Δt</span>
+    v = v <span class="operator">+</span> dvdt <span class="operator">*</span> dt
+    t = t <span class="operator">+</span> dt
+    
+    <span class="keyword">print</span>(f<span class="string">"t = {t:.1f}s, v = {v:.2f} m/s"</span>)
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--text-muted); font-size: 0.9rem;">
+                        Try changing the sliders above, then compare what you see to running this code yourself!
+                    </p>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="card tip-card">
+                    <h3>💡 Why This Matters</h3>
+                    <p>
+                        Numerical methods like Euler's are how engineers solve real problems. 
+                        Weather prediction, rocket trajectories, chemical reactor design: 
+                        they all use these stepping techniques.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>Variable Reference</h3>
+                    <ul class="var-list">
+                        <li>
+                            <span class="var-symbol">m</span>
+                            <span>Mass of parachutist</span>
+                        </li>
+                        <li>
+                            <span class="var-symbol">g</span>
+                            <span>Gravity (9.8 m/s²)</span>
+                        </li>
+                        <li>
+                            <span class="var-symbol">c</span>
+                            <span>Drag coefficient</span>
+                        </li>
+                        <li>
+                            <span class="var-symbol">v</span>
+                            <span>Velocity at time t</span>
+                        </li>
+                        <li>
+                            <span class="var-symbol">Δt</span>
+                            <span>Time step size</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>Try These Experiments</h3>
+                    <ul style="margin: 0; padding-left: 1.25rem; font-size: 0.9rem;">
+                        <li style="margin-bottom: 0.5rem;">Set c = 68 (parachute open). How does terminal velocity change?</li>
+                        <li style="margin-bottom: 0.5rem;">Use a large Δt (like 3s). See how the curve becomes less smooth?</li>
+                        <li>Double the mass. Does terminal velocity double?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>
+            Part of the <a href="index.html">Python Basics Tutorial</a> for CHL7002: Computational Techniques for Chemical Engineers
+        </p>
+    </footer>
+
+    <script>
+        // Constants
+        const g = 9.8;
+        
+        // State
+        let isRunning = false;
+        let velocity = 0;
+        let time = 0;
+        let animationId = null;
+
+        // DOM Elements
+        const massInput = document.getElementById('mass');
+        const dragInput = document.getElementById('drag');
+        const dtInput = document.getElementById('dt');
+        const jumpBtn = document.getElementById('jumpBtn');
+        const skyCanvas = document.getElementById('skyCanvas');
+        const ctx = skyCanvas.getContext('2d');
+
+        // Update value displays
+        function updateLabels() {
+            document.getElementById('massVal').textContent = parseFloat(massInput.value).toFixed(1);
+            document.getElementById('dragVal').textContent = parseFloat(dragInput.value).toFixed(1);
+            document.getElementById('dtVal').textContent = parseFloat(dtInput.value).toFixed(1);
+            
+            // Calculate and display terminal velocity
+            const m = parseFloat(massInput.value);
+            const c = parseFloat(dragInput.value);
+            const vTerminal = (g * m) / c;
+            document.getElementById('terminalVel').textContent = vTerminal.toFixed(1) + ' m/s';
+        }
+
+        [massInput, dragInput, dtInput].forEach(el => el.addEventListener('input', updateLabels));
+
+        // Chart setup
+        const chartCtx = document.getElementById('velocityChart').getContext('2d');
+        const velocityChart = new Chart(chartCtx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [
+                    {
+                        label: 'Euler Method (Numerical)',
+                        data: [],
+                        borderColor: '#579aca',
+                        backgroundColor: 'rgba(87, 154, 202, 0.1)',
+                        fill: true,
+                        tension: 0,
+                        pointRadius: 3,
+                        pointBackgroundColor: '#579aca'
+                    },
+                    {
+                        label: 'Analytical Solution',
+                        data: [],
+                        borderColor: '#28a745',
+                        borderDash: [5, 5],
+                        fill: false,
+                        tension: 0.4,
+                        pointRadius: 0
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    intersect: false,
+                    mode: 'index'
+                },
+                scales: {
+                    x: { 
+                        title: { display: true, text: 'Time (s)' },
+                        grid: { color: 'rgba(0,0,0,0.05)' }
+                    },
+                    y: { 
+                        title: { display: true, text: 'Velocity (m/s)' }, 
+                        beginAtZero: true,
+                        grid: { color: 'rgba(0,0,0,0.05)' }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: { usePointStyle: true }
+                    }
+                }
+            }
+        });
+
+        // Reset simulation
+        function resetSim() {
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+            }
+            
+            isRunning = true;
+            velocity = 0;
+            time = 0;
+            
+            velocityChart.data.labels = ['0'];
+            velocityChart.data.datasets[0].data = [0];
+            velocityChart.data.datasets[1].data = [0];
+            velocityChart.update();
+            
+            jumpBtn.textContent = '⏸ Running...';
+            jumpBtn.disabled = true;
+            
+            // Disable sliders during simulation
+            massInput.disabled = true;
+            dragInput.disabled = true;
+            dtInput.disabled = true;
+            
+            runSimulation();
+        }
+
+        // Main simulation loop
+        function runSimulation() {
+            if (!isRunning) return;
+
+            const m = parseFloat(massInput.value);
+            const c = parseFloat(dragInput.value);
+            const dt = parseFloat(dtInput.value);
+            const maxTime = 20;
+
+            // Euler step
+            const dvdt = g - (c / m) * velocity;
+            velocity += dvdt * dt;
+            time += dt;
+
+            // Calculate analytical solution for comparison
+            const vAnalytical = (g * m / c) * (1 - Math.exp(-c / m * time));
+
+            // Update displays
+            document.getElementById('currentTime').textContent = time.toFixed(1) + ' s';
+            document.getElementById('currentVel').textContent = velocity.toFixed(1) + ' m/s';
+
+            // Update chart
+            velocityChart.data.labels.push(time.toFixed(1));
+            velocityChart.data.datasets[0].data.push(velocity);
+            velocityChart.data.datasets[1].data.push(vAnalytical);
+            velocityChart.update('none');
+
+            // Continue or stop
+            if (time < maxTime) {
+                // Use setTimeout to control speed based on dt
+                setTimeout(() => {
+                    animationId = requestAnimationFrame(runSimulation);
+                }, Math.max(50, dt * 100));
+            } else {
+                isRunning = false;
+                jumpBtn.textContent = '↻ Jump Again';
+                jumpBtn.disabled = false;
+                massInput.disabled = false;
+                dragInput.disabled = false;
+                dtInput.disabled = false;
+            }
+        }
+
+        // Canvas animation
+        function drawCanvas() {
+            const w = skyCanvas.width;
+            const h = skyCanvas.height;
+            
+            ctx.clearRect(0, 0, w, h);
+
+            // Draw clouds
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+            drawCloud(w * 0.2, h * 0.15, 25);
+            drawCloud(w * 0.7, h * 0.1, 30);
+            drawCloud(w * 0.5, h * 0.25, 20);
+
+            // Calculate skydiver position based on velocity
+            const m = parseFloat(massInput.value);
+            const c = parseFloat(dragInput.value);
+            const vTerminal = (g * m) / c;
+            const progress = Math.min(velocity / vTerminal, 1);
+            const yPos = 30 + progress * (h - 80);
+
+            // Draw skydiver
+            ctx.fillStyle = '#1e3a5f';
+            
+            // Body
+            ctx.fillRect(w/2 - 6, yPos, 12, 25);
+            
+            // Head
+            ctx.beginPath();
+            ctx.arc(w/2, yPos - 8, 8, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Arms (spread out while falling)
+            ctx.beginPath();
+            ctx.moveTo(w/2 - 6, yPos + 5);
+            ctx.lineTo(w/2 - 25, yPos + 15);
+            ctx.moveTo(w/2 + 6, yPos + 5);
+            ctx.lineTo(w/2 + 25, yPos + 15);
+            ctx.strokeStyle = '#1e3a5f';
+            ctx.lineWidth = 4;
+            ctx.stroke();
+            
+            // Legs
+            ctx.beginPath();
+            ctx.moveTo(w/2 - 3, yPos + 25);
+            ctx.lineTo(w/2 - 8, yPos + 40);
+            ctx.moveTo(w/2 + 3, yPos + 25);
+            ctx.lineTo(w/2 + 8, yPos + 40);
+            ctx.stroke();
+
+            // Speed lines when falling fast
+            if (velocity > 10) {
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+                ctx.lineWidth = 2;
+                for (let i = 0; i < 5; i++) {
+                    const lx = w/2 - 40 + i * 20;
+                    const ly = yPos - 20 - Math.random() * 10;
+                    ctx.beginPath();
+                    ctx.moveTo(lx, ly);
+                    ctx.lineTo(lx, ly - 15 - velocity/5);
+                    ctx.stroke();
+                }
+            }
+
+            requestAnimationFrame(drawCanvas);
+        }
+
+        function drawCloud(x, y, size) {
+            ctx.beginPath();
+            ctx.arc(x, y, size, 0, Math.PI * 2);
+            ctx.arc(x + size * 0.8, y - size * 0.2, size * 0.7, 0, Math.PI * 2);
+            ctx.arc(x + size * 1.4, y, size * 0.8, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Initialize
+        window.addEventListener('resize', resizeCanvas);
+        
+        function resizeCanvas() {
+            skyCanvas.width = skyCanvas.offsetWidth;
+            skyCanvas.height = skyCanvas.offsetHeight;
+        }
+
+        window.onload = () => {
+            resizeCanvas();
+            updateLabels();
+            drawCanvas();
+        };
+
+        jumpBtn.addEventListener('click', resetSim);
+    </script>
+</body>
+</html>
