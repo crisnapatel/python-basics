@@ -4,12 +4,35 @@ title: If/Else Statements
 
 # If/Else Statements
 
-Make your code take different paths based on conditions.
+## What If My Code Needs to Make Decisions?
+
+Back to our parachutist. In the real problem, the drag coefficient **changes** when the parachute opens:
+- Free-fall: c = 12.5 kg/s
+- Parachute open: c = 68 kg/s (much more air resistance!)
+
+The parachute opens after 5 seconds. How do you handle this in code?
+
+```python
+t = 7  # current time
+
+if t < 5:
+    c = 12.5   # free-fall
+else:
+    c = 68.0   # parachute deployed
+
+print(f"At t={t}s, drag coefficient = {c} kg/s")
+```
+
+Without `if/else`, you'd need two completely separate programs: one for before the parachute opens, one for after. With `if/else`, your code adapts automatically.
+
+---
 
 ## Basic Syntax
 
+The structure is: `if CONDITION:` followed by indented code. Use `elif` (else if) for additional conditions, and `else` for the default case. Indentation matters!
+
 ```python
-temperature = 373.15  # K
+temperature = 373.15
 
 if temperature > 373.15:
     print("Water is vapor")
@@ -32,21 +55,22 @@ else:
 
 ## Combining Conditions
 
-Use `and`, `or`, `not`:
+Use `and`, `or`, `not` to combine multiple conditions.
+
+- `and`: both conditions must be true
+- `or`: at least one condition must be true  
+- `not`: flips true to false (and vice versa)
 
 ```python
-T = 300  # K
-P = 101  # kPa
+T = 300
+P = 101
 
-# Both conditions must be true
 if T > 273 and P > 100:
     print("Above STP")
 
-# Either condition is true
 if T < 273 or P < 100:
     print("Below normal conditions")
 
-# Negation
 if not (T > 373):
     print("Not boiling")
 ```

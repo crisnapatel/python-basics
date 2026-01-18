@@ -1,9 +1,18 @@
 ---
 title: Error Handling
 ---
+
 # Common Python Errors
 
-Learn to read error messages — they tell you exactly what's wrong!
+## Don't Panic When You See Red
+
+Here's a secret: **professional programmers see errors constantly**. The difference between a beginner and an expert isn't that experts write perfect code. It's that experts can *read* the error message and fix the problem in 30 seconds.
+
+When you see a wall of red text, don't panic. Python is trying to help you. It's saying: "Something went wrong, and here's exactly where and why."
+
+This page shows you the most common errors you'll encounter. Learn to recognize them, and you'll debug code 10× faster.
+
+---
 
 ## TypeError
 ```python

@@ -4,53 +4,70 @@ title: Data Types
 
 # Data Types in Python
 
-Python has several built-in data types. Understanding them is fundamental to writing correct code.
+## Why Should I Care About Types?
+
+Imagine you're simulating a falling parachutist. You need to store:
+- The parachutist's **mass**: `68.1` kg (a decimal number)
+- The **drag coefficient**: `12.5` kg/s (another decimal)
+- Whether the **parachute is open**: `True` or `False`
+- The **jumper's name**: `"Alex"` (text)
+
+Each of these is a different *type* of data. Python needs to know what type something is so it knows what operations make sense. You can multiply two numbers, but what does it mean to multiply two names?
+
+Get the type wrong, and your code breaks. Understand types, and you'll write code that just works.
+
+---
 
 ## Numbers
 
 ### Integers (`int`)
 
-Whole numbers without decimal points.
+Whole numbers without decimal points. Just type the number directly. Remember: no quotes around numbers! `25` is an integer, but `"25"` would be text.
 
 ```python
-# Integer examples
 age = 25
 temperature = -10
-num_molecules = 6022140857000000000000000  # Avogadro's number approximation
+num_molecules = 602214085700000
 ```
 
 ### Floating-Point (`float`)
 
-Numbers with decimal points — essential for scientific calculations.
+Numbers with decimal points. Essential for scientific calculations. You can use `e` for scientific notation (powers of 10).
 
 ```python
-# Float examples
-pressure = 101.325  # kPa
-molar_mass = 18.015  # g/mol for water
-concentration = 2.5e-3  # 0.0025 mol/L (scientific notation)
+pressure = 101.325
+molar_mass = 18.015
+concentration = 2.5e-3  # Same as 0.0025
+avogadro = 6.022e23     # 6.022 times 10^23
 ```
 
 ## Strings (`str`)
 
-Text data enclosed in quotes.
+Text data. **Must be enclosed in quotes** (single `'` or double `"`). Without quotes, Python thinks you're referring to a variable name.
 
 ```python
-# String examples
 element = "Carbon"
 formula = 'H2O'
 description = """This is a 
 multi-line string"""
 ```
 
+:::{warning}
+`Carbon` without quotes causes an error (Python looks for a variable named Carbon). `"Carbon"` with quotes is correct.
+:::
+
 ## Booleans (`bool`)
 
-True or False values — used for conditions.
+Only two possible values: `True` or `False`. Used for conditions. Note the capital letters and no quotes.
 
 ```python
-# Boolean examples
 is_exothermic = True
 reaction_complete = False
 ```
+
+:::{warning}
+`true` (lowercase) causes an error. `"True"` (with quotes) is a string, not a boolean. Always use `True` or `False` with capital letters and no quotes.
+:::
 
 ## Checking Types
 
