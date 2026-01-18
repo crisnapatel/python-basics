@@ -23,6 +23,30 @@ result = "5" + 3  # TypeError: can only concatenate str to str
 result = int("5") + 3  # 8
 ```
 
+## IndentationError
+
+This is the **most common beginner error**. Python uses indentation (spaces at the start of lines) to define code blocks. Mixing tabs and spaces, or inconsistent indentation, causes this error.
+
+```python
+# Wrong: inconsistent indentation
+if x > 0:
+print("positive")  # IndentationError: expected an indented block
+
+# Wrong: mixed tabs and spaces
+if x > 0:
+    print("line 1")  # 4 spaces
+	print("line 2")  # 1 tab - IndentationError!
+
+# Correct: consistent 4-space indentation
+if x > 0:
+    print("positive")
+    print("and non-zero")
+```
+
+:::{tip}
+Configure your editor to insert 4 spaces when you press Tab. In VS Code: Settings → "Editor: Tab Size" = 4 and "Editor: Insert Spaces" = checked.
+:::
+
 ## NameError
 ```python
 # Wrong: variable not defined
@@ -66,6 +90,35 @@ ZeroDivisionError: division by zero         ← WHAT went wrong
 ```
 
 **Always read from bottom up!**
+
+---
+
+## Debugging a Simulation: A Common Mistake
+
+Here's an error that won't show a red message but will give wrong results. Can you spot the bug?
+
+```python
+# Euler's method for falling parachutist
+g, c, m, dt = 9.8, 12.5, 68.1, 2.0
+v = 0
+t = 0
+
+while t < 12:
+    v = v + (g - c/m * v) * dt
+    # Oops! Forgot to update t
+    print(f"t = {t}, v = {v:.2f}")
+```
+
+This loop runs forever because `t` never changes! The fix:
+
+```python
+while t < 12:
+    v = v + (g - c/m * v) * dt
+    t = t + dt  # Don't forget this!
+    print(f"t = {t}, v = {v:.2f}")
+```
+
+**Lesson**: Not all bugs cause error messages. If your loop runs forever or gives unexpected results, check that you're updating your loop variables.
 
 ---
 

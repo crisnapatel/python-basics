@@ -42,7 +42,12 @@ def add_numbers(a, b):
     return result
 
 x = add_numbers(3, 5)
-print(x)  # 8
+print(x)
+```
+
+Output:
+```
+8
 ```
 
 Key things to notice:
@@ -97,3 +102,11 @@ print(f"Analytical: {v_exact:.2f} m/s")
 print(f"Euler (dt=2): {v_euler:.2f} m/s")
 print(f"Error: {abs(v_exact - v_euler):.2f} m/s")
 ```
+
+:::{tip}
+For documenting your functions, see the docstrings section in [Comments](comments.md).
+:::
+
+## Next Steps
+
+With functions, you can write modular, reusable code. Continue to [NumPy Basics](numpy_basics/index.md) to learn about efficient numerical computing with arrays.

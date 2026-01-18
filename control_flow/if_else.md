@@ -90,6 +90,38 @@ else:
     print("Reaction is non-spontaneous")
 ```
 
+## Numerical Methods Example: Quadratic Formula
+
+When implementing the quadratic formula algorithm, you need to check for special cases:
+
+```python
+import math
+
+a, b, c = 1, -5, 6  # coefficients of ax² + bx + c = 0
+
+if a == 0:
+    print("Not a quadratic equation (a cannot be 0)")
+else:
+    discriminant = b**2 - 4*a*c
+    
+    if discriminant > 0:
+        x1 = (-b + math.sqrt(discriminant)) / (2*a)
+        x2 = (-b - math.sqrt(discriminant)) / (2*a)
+        print(f"Two real roots: {x1}, {x2}")
+    elif discriminant == 0:
+        x = -b / (2*a)
+        print(f"One repeated root: {x}")
+    else:
+        print("Complex roots (discriminant < 0)")
+```
+
+Output:
+```
+Two real roots: 3.0, 2.0
+```
+
+This is exactly the kind of error checking you'll implement in numerical algorithms—handling edge cases before they cause crashes.
+
 ## Common Mistake
 
 :::{warning}
@@ -103,3 +135,7 @@ if x == 5:
     print("x is five")
 ```
 :::
+
+## Next Steps
+
+Now that your code can make decisions, it's time to learn repetition. Continue to [Loops](loops.md) to see how numerical methods use iteration to solve problems step by step.

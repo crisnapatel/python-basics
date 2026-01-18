@@ -6,7 +6,9 @@ title: Iterators and Looping Patterns
 
 ## Beyond Basic Loops
 
-You've seen `for i in range(n)` and `for item in list`. But Python has more powerful patterns for iterating through data. These make your code cleaner and less error-prone.
+You've seen `for i in range(n)` and `for item in list` in [Loops](control_flow/loops.md). But Python has more powerful patterns for iterating through data.
+
+Here's a common situation: you're processing experimental data and need to know *which* measurement you're on. Maybe you want to print "Reading 1: 300 K" instead of just "300 K". Or you need to compare each value with the previous one. Manually tracking indices leads to bugs. These patterns make your code cleaner and less error-prone.
 
 ---
 

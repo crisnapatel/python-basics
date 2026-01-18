@@ -81,6 +81,8 @@ propane
 
 Use `while` when you don't know how many iterations you need. The loop keeps running as long as the condition is `True`.
 
+This is exactly what you need for computing the Maclaurin series for $e^x$: you keep adding terms until the approximate error falls below your tolerance. You don't know in advance how many terms that will take.
+
 ### How while works
 
 ```python
@@ -139,3 +141,7 @@ while concentration > 0.1:
 ## Next Steps
 
 Continue to [Data Structures](../data_structures.md) to learn about lists, dictionaries, and more.
+
+:::{tip}
+For advanced loop patterns like `enumerate()`, `zip()`, and list comprehensions, see [Iterators and Looping Patterns](../iterators.md) after you've learned about data structures.
+:::

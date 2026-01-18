@@ -9,11 +9,12 @@ This resource is designed to help you learn Python programming for the **CHL7002
 
 ## What You'll Learn
 
-- **Comments**: Writing code others (and future you) can understand
-- **Python Fundamentals**: Variables, data types, operators
+- **Python Fundamentals**: Data types, variables, operators
+- **Print & Comments**: See what your code is doing, write code others can understand
 - **Control Flow**: Conditionals and loops
+- **Data Structures**: Lists, dictionaries, and more
 - **Functions**: Writing reusable code
-- **NumPy & Pandas**: Data manipulation essentials
+- **NumPy**: Numerical computing essentials
 - **Error Handling**: Reading and fixing common errors
 
 ## Why Learn Python?

@@ -91,7 +91,7 @@ def reynolds_number(velocity, diameter, viscosity, density):
 ```
 
 :::{note}
-Triple-quoted strings at the start of a function are called **docstrings**. They're special because Python stores them and you can access them with `help(function_name)`.
+Triple-quoted strings at the start of a function are called **docstrings**. They're special because Python stores them and you can access them with `help(function_name)`. You'll learn more about writing functions in [Functions](functions.md).
 :::
 
 ---
@@ -183,4 +183,4 @@ Select multiple lines, press the shortcut, and they all get commented or uncomme
 
 ## Next Steps
 
-Continue to [Data Types](datatypes.md) to learn about the different kinds of values Python can work with.
+Now that you can document your code, you're ready for more powerful constructs. Continue to [Control Flow](control_flow/index.md) to learn about conditionals and loops—the building blocks of every numerical algorithm.

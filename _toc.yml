@@ -1,10 +1,10 @@
 format: jb-book
 root: index
 chapters:
-  - file: comments
   - file: datatypes
   - file: variables
   - file: print
+  - file: comments
   - file: control_flow/index
     sections:
       - file: control_flow/if_else
