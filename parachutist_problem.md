@@ -13,7 +13,7 @@ By the time you finish this course, you'll be able to simulate this problem your
 
 Want to see Euler's method in action before diving into the math? 
 
-<a href="parachutist_simulation.html" target="_blank" style="display: inline-block; background: #579aca; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 500; margin-top: 8px;">
+<a href="_static/parachutist_simulation.html" target="_blank" style="display: inline-block; background: #579aca; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 500; margin-top: 8px;">
 ▶ Launch Interactive Simulation
 </a>
 
