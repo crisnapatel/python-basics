@@ -1,5 +1,5 @@
 ---
-title: Computational Techniques — Python Basics
+title: "Computational Techniques: Python Basics"
 subtitle: A practical guide for CHL7002 students at IIT Delhi
 ---
 
@@ -74,4 +74,4 @@ Python is the tool that lets you solve these problems.
 
 ## Getting Started
 
-Start with [Data Types](datatypes.md) to learn the building blocks of Python.
+Before diving into Python syntax, read [The Parachutist Problem](parachutist_problem.md) to understand the running example we'll use throughout this tutorial. Then continue to [Data Types](datatypes.md) to learn the building blocks of Python.

@@ -5,7 +5,7 @@ title: Array Operations
 
 ## Math on Entire Arrays at Once
 
-With Python lists, you'd need a loop to add two lists element by element. With NumPy, mathematical operations automatically apply to every element—this is called *vectorization*.
+With Python lists, you'd need a loop to add two lists element by element. With NumPy, mathematical operations automatically apply to every element. This is called *vectorization*.
 
 ```python
 import numpy as np

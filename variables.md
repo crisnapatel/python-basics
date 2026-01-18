@@ -70,7 +70,7 @@ Output:
 308.15
 ```
 
-This might look strange at first—how can `temperature` equal itself plus 10? Remember, `=` means "assign", not "equals". Python evaluates the right side first (`298.15 + 10 = 308.15`), then stores that result in `temperature`.
+This might look strange at first. How can `temperature` equal itself plus 10? Remember, `=` means "assign", not "equals". Python evaluates the right side first (`298.15 + 10 = 308.15`), then stores that result in `temperature`.
 
 ### Naming Rules
 
@@ -142,7 +142,7 @@ print(x > y)    # Greater than? False
 print(x >= y)   # Greater or equal? False
 ```
 
-You'll use these constantly in conditionals and loops—for example, checking if the error is small enough to stop iterating.
+You'll use these constantly in conditionals and loops. For example, checking if the error is small enough to stop iterating.
 
 ### The Most Common Mistake: `=` vs `==`
 
@@ -188,4 +188,4 @@ Notice how readable this is compared to `(1.0 * 8.314 * 298.15) / 101325`. And i
 
 ## Next Steps
 
-You've stored values and done calculations—but how do you see the results? Continue to [The print() Function](print.md) to learn how to display output.
+You've stored values and done calculations. But how do you see the results? Continue to [The print() Function](print.md) to learn how to display output.

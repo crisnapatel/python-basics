@@ -37,7 +37,7 @@ Now `velocities` is a single variable containing all five values. Much better th
 
 ### Accessing Items by Position
 
-Items in a list are numbered starting from 0 (not 1—this trips up many beginners):
+Items in a list are numbered starting from 0, not 1. This trips up many beginners:
 
 ```python
 temps = [300, 350, 400, 450, 500]
@@ -102,7 +102,7 @@ Output:
 [250, 300, 400]
 ```
 
-Each of these operations modifies the list in place—you don't need to create a new list.
+Each of these operations modifies the list in place. You don't need to create a new list.
 
 ### Common List Operations
 
@@ -118,7 +118,7 @@ print(sum(temps))      # 1550 (total)
 print(sorted(temps))   # [300, 350, 400, 500] (new sorted list)
 ```
 
-Note that `sorted()` returns a *new* sorted list—the original stays unchanged. If you want to sort in place, use `temps.sort()`.
+Note that `sorted()` returns a *new* sorted list. The original stays unchanged. If you want to sort in place, use `temps.sort()`.
 
 :::{tip}
 For more built-in functions that work with lists (like `sum()`, `min()`, `max()`), see [Common Functions](common_functions.md).
@@ -170,7 +170,7 @@ print(x)  # 3.5
 print(y)  # 2.1
 ```
 
-This is why functions can effectively return multiple values—they return a tuple, and you unpack it.
+This is why functions can effectively return multiple values; they return a tuple, and you unpack it.
 
 Now, lists and tuples are great for ordered data. But what if you want to look up values by name rather than by position?
 

@@ -1,6 +1,7 @@
 format: jb-book
 root: index
 chapters:
+  - file: parachutist_problem
   - file: datatypes
   - file: variables
   - file: print

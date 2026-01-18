@@ -24,7 +24,7 @@ The most fundamental data in numerical methods is, of course, numbers. Python ha
 
 ### Integers (`int`)
 
-When you type a number without a decimal point, Python treats it as an **integer**—a whole number:
+When you type a number without a decimal point, Python treats it as an **integer**, a whole number:
 
 ```python
 n_iterations = 100
@@ -56,7 +56,7 @@ So now we know how to store numbers. But what about text?
 
 ## Text: Strings
 
-Sometimes you need to store text—a compound name, a file path, a label for your plot. In Python, text is called a **string** (`str`), and it must be enclosed in quotes:
+Sometimes you need to store text: a compound name, a file path, a label for your plot. In Python, text is called a **string** (`str`), and it must be enclosed in quotes:
 
 ```python
 element = "Carbon"

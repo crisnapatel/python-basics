@@ -183,4 +183,4 @@ Select multiple lines, press the shortcut, and they all get commented or uncomme
 
 ## Next Steps
 
-Now that you can document your code, you're ready for more powerful constructs. Continue to [Control Flow](control_flow/index.md) to learn about conditionals and loops—the building blocks of every numerical algorithm.
+Now that you can document your code, you're ready for more powerful constructs. Continue to [Control Flow](control_flow/index.md) to learn about conditionals and loops, the building blocks of every numerical algorithm.

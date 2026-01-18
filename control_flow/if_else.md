@@ -120,7 +120,7 @@ Output:
 Two real roots: 3.0, 2.0
 ```
 
-This is exactly the kind of error checking you'll implement in numerical algorithms—handling edge cases before they cause crashes.
+This is exactly the kind of error checking you'll implement in numerical algorithms. You handle edge cases before they cause crashes.
 
 ## Common Mistake
 

@@ -8,7 +8,7 @@ title: Common Functions
 
 Every time you analyze experimental data, you'll need to find the minimum, maximum, or average of a list of values. Every time you compute an error, you'll need an absolute value. Every time you report a result, you'll want to round it.
 
-Python comes with many built-in functions—no imports needed. These are the ones you'll reach for most often. Learn them once, use them forever.
+Python comes with many built-in functions. No imports needed. These are the ones you'll reach for most often. Learn them once, use them forever.
 
 ---
 

@@ -33,5 +33,5 @@ If you're solving ODEs, processing experimental data, or doing any serious numer
 :::
 
 ## Topics
-- [Creating Arrays](creating_arrays.md) — Making arrays from lists, generating sequences
-- [Array Operations](operations.md) — Math on entire arrays at once
+- [Creating Arrays](creating_arrays.md): Making arrays from lists, generating sequences
+- [Array Operations](operations.md): Math on entire arrays at once

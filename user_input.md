@@ -6,7 +6,7 @@ title: User Input
 
 ## Getting Data from the User
 
-Sometimes your program needs information from the person running it—a temperature, a number of iterations, or a filename. Python's `input()` function lets you ask for this.
+Sometimes your program needs information from the person running it: a temperature, a number of iterations, or a filename. Python's `input()` function lets you ask for this.
 
 In numerical methods, interactive input is useful for:
 - Testing your code with different parameter values (mass, drag coefficient, step size)
