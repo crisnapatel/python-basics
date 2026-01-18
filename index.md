@@ -50,19 +50,24 @@ Here's the reality: many problems in chemical engineering **don't have analytica
 
 **Examples you'll encounter in this course:**
 
-| Problem | Why You Need Code |
-|---------|-------------------|
-| PFR volume from a complex rate law | The integral $V = F_{A0} \int \frac{dX_A}{-r_A}$ often has no closed-form solution |
-| Flash calculations with Peng-Robinson EOS | Solving $\sum \frac{z_i(K_i - 1)}{1 + V(K_i - 1)} = 0$ requires iterative numerical methods |
-| Non-isothermal reactor design | Coupled energy and mass balances → systems of ODEs |
-| Fitting rate constants to experimental data | Parameter estimation requires optimization algorithms |
-| Mean residence time from RTD data | Your E(t) curve is experimental data points, not an equation |
+| Problem | What Python Does |
+|---------|------------------|
+| Compute $e^x$ using Taylor series | Add up terms in a loop, track the error |
+| Find roots of equations (bisection, Newton-Raphson) | Repeat a formula until the answer is close enough |
+| Molar volume from van der Waals equation | Solve a nonlinear equation iteratively |
+| Calculate derivatives numerically | Compute $(f(x+h) - f(x))/h$ for different step sizes |
+| Process experimental data from a file | Read CSV, calculate statistics, plot results |
 
-**Beyond this course:**
-- CFD simulations (Navier-Stokes + reactions)
-- Molecular dynamics for property prediction
-- Process optimization (yield, energy consumption)
-- Machine learning for fault detection and control
+These aren't abstract exercises. The first assignment asks you to compute $e^x$ from the series expansion and track the error at each step. That's a loop, some arithmetic, and print statements. By the end of this module, you'll be able to do it.
+
+**What working engineers use Python for:**
+
+Once you're comfortable with the basics, Python opens doors to real engineering work:
+- **Automating calculations**: Run the same analysis on 50 datasets without copy-pasting
+- **Plotting and visualization**: Generate publication-quality figures from your data
+- **Reading sensor data**: Parse log files from lab equipment
+- **Connecting to simulations**: Pre/post-process data for ANSYS, COMSOL, or LAMMPS
+- **Building simple GUIs**: Create a tool your lab group can use without coding
 
 Python is the tool that lets you solve these problems.
 

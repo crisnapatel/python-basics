@@ -9,6 +9,10 @@ chapters:
     sections:
       - file: control_flow/if_else
       - file: control_flow/loops
+  - file: data_structures
+  - file: iterators
+  - file: user_input
+  - file: common_functions
   - file: functions
   - file: numpy_basics/index
     sections:
