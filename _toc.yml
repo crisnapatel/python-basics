@@ -1,0 +1,15 @@
+format: jb-book
+root: index
+chapters:
+  - file: datatypes
+  - file: variables
+  - file: control_flow/index
+    sections:
+      - file: control_flow/if_else
+      - file: control_flow/loops
+  - file: functions
+  - file: numpy_basics/index
+    sections:
+      - file: numpy_basics/creating_arrays
+      - file: numpy_basics/operations
+  - file: errors

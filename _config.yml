@@ -1,0 +1,15 @@
+title: Computational Techniques — Python Basics
+author: Krishna Patel
+logo: ""
+
+execute:
+  execute_notebooks: "off"
+
+html:
+  use_issues_button: false
+  use_repository_button: true
+  home_page_in_navbar: false
+
+repository:
+  url: https://github.com/crisnapatel/python-basics
+  branch: main

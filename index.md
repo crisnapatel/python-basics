@@ -26,7 +26,8 @@ import pandas as pd
 import numpy as np
 
 data = pd.read_csv("tracer_data.csv")
-t, C = data["time"], data["concentration"]
+t = data["time"]
+C = data["concentration"]
 
 E = C / np.trapz(C, t)                    # Normalize to get E(t)
 t_mean = np.trapz(t * E, t)               # Mean residence time
