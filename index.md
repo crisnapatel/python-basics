@@ -7,6 +7,16 @@ subtitle: A practical guide for CHL7002 students at IIT Delhi
 
 This resource is designed to help you learn Python programming for the **CHL7002: Computational Techniques for Chemical Engineers** course.
 
+```{admonition} 🧠 Explore the Mind Map
+:class: tip
+
+Get a visual overview of all topics with key commands at a glance.
+
+<a href="_static/mindmap.html" style="display: inline-block; background: #579aca; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 500; margin-top: 8px;">
+🗺️ Open Interactive Mind Map
+</a>
+```
+
 ## What You'll Learn
 
 - **Python Fundamentals**: Data types, variables, operators

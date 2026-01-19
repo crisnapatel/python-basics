@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Basics Mind Map | Computational Techniques</title>
+    <style>
+        :root {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --bg-card: #1f2940;
+            --text-primary: #e8e8e8;
+            --text-muted: #a0a0a0;
+            --accent-blue: #579aca;
+            --accent-green: #4ecca3;
+            --accent-orange: #ff9f43;
+            --accent-purple: #a855f7;
+            --accent-pink: #ec4899;
+            --border-color: #2d3748;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-secondary);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+        }
+
+        .back-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--accent-blue);
+        }
+
+        /* Mind Map Container */
+        .mindmap-container {
+            width: 100%;
+            height: calc(100vh - 120px);
+            overflow: auto;
+            padding: 2rem;
+        }
+
+        .mindmap {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-width: max-content;
+            padding: 2rem;
+        }
+
+        /* Node Styles */
+        .node {
+            position: relative;
+            margin: 0.5rem 0;
+        }
+
+        .node-content {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.75rem 1.25rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .node-content:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        /* Root node */
+        .root > .node-content {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            border-color: var(--accent-blue);
+            font-size: 1.2rem;
+            padding: 1rem 2rem;
+            font-weight: 600;
+        }
+
+        /* Level 1 nodes */
+        .level-1 > .node-content {
+            border-left: 4px solid var(--accent-green);
+        }
+
+        .level-1.fundamentals > .node-content { border-left-color: var(--accent-blue); }
+        .level-1.control > .node-content { border-left-color: var(--accent-orange); }
+        .level-1.data > .node-content { border-left-color: var(--accent-green); }
+        .level-1.numpy > .node-content { border-left-color: var(--accent-purple); }
+        .level-1.application > .node-content { border-left-color: var(--accent-pink); }
+
+        /* Level 2 nodes */
+        .level-2 > .node-content {
+            background: var(--bg-secondary);
+            font-size: 0.85rem;
+            padding: 0.5rem 1rem;
+        }
+
+        /* Tree structure */
+        .tree {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .branches {
+            display: flex;
+            flex-direction: column;
+            margin-left: 3rem;
+            position: relative;
+        }
+
+        .branches::before {
+            content: '';
+            position: absolute;
+            left: -1.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border-color);
+        }
+
+        .branch {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin: 0.25rem 0;
+            position: relative;
+        }
+
+        .branch::before {
+            content: '';
+            position: absolute;
+            left: -1.5rem;
+            width: 1.5rem;
+            height: 2px;
+            background: var(--border-color);
+        }
+
+        .sub-branches {
+            display: flex;
+            flex-direction: column;
+            margin-left: 2rem;
+            position: relative;
+        }
+
+        .sub-branches::before {
+            content: '';
+            position: absolute;
+            left: -1rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border-color);
+        }
+
+        .sub-branch {
+            position: relative;
+            margin: 0.2rem 0;
+        }
+
+        .sub-branch::before {
+            content: '';
+            position: absolute;
+            left: -1rem;
+            top: 50%;
+            width: 1rem;
+            height: 2px;
+            background: var(--border-color);
+        }
+
+        /* Tooltip/Popup */
+        .tooltip {
+            display: none;
+            position: absolute;
+            left: calc(100% + 1rem);
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            width: 320px;
+            z-index: 100;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        }
+
+        .tooltip.show {
+            display: block;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-50%) translateX(-10px); }
+            to { opacity: 1; transform: translateY(-50%) translateX(0); }
+        }
+
+        .tooltip h3 {
+            color: var(--accent-blue);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .tooltip p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin-bottom: 0.75rem;
+        }
+
+        .tooltip .commands {
+            background: #0d1117;
+            border-radius: 4px;
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .tooltip .commands code {
+            display: block;
+            color: var(--accent-green);
+            font-family: "SFMono-Regular", Consolas, monospace;
+            font-size: 0.8rem;
+            margin: 0.25rem 0;
+        }
+
+        .tooltip .go-link {
+            display: inline-block;
+            background: var(--accent-blue);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .tooltip .go-link:hover {
+            background: #4a8bc0;
+        }
+
+        /* Instructions */
+        .instructions {
+            text-align: center;
+            padding: 1rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .instructions span {
+            margin: 0 1rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .tooltip {
+                position: fixed;
+                left: 50%;
+                top: auto;
+                bottom: 80px;
+                transform: translateX(-50%);
+                width: 90%;
+                max-width: 350px;
+            }
+
+            .tooltip.show {
+                animation: fadeInMobile 0.2s ease;
+            }
+
+            @keyframes fadeInMobile {
+                from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+                to { opacity: 1; transform: translateX(-50%) translateY(0); }
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🧠 Python Basics Mind Map</h1>
+        <a href="../index.html" class="back-link">← Back to Tutorial</a>
+    </div>
+
+    <div class="mindmap-container">
+        <div class="mindmap">
+            <div class="tree">
+                <!-- Root Node -->
+                <div class="node root" data-info="root">
+                    <div class="node-content">Python for Computational Techniques</div>
+                </div>
+
+                <!-- Main Branches -->
+                <div class="branches">
+                    <!-- Parachutist Problem -->
+                    <div class="branch">
+                        <div class="node level-1 application" data-info="parachutist">
+                            <div class="node-content">🪂 Parachutist Problem</div>
+                        </div>
+                    </div>
+
+                    <!-- Fundamentals -->
+                    <div class="branch">
+                        <div class="node level-1 fundamentals" data-info="datatypes">
+                            <div class="node-content">📦 Data Types</div>
+                        </div>
+                    </div>
+
+                    <div class="branch">
+                        <div class="node level-1 fundamentals" data-info="variables">
+                            <div class="node-content">🔤 Variables & Operators</div>
+                        </div>
+                    </div>
+
+                    <div class="branch">
+                        <div class="node level-1 fundamentals" data-info="print">
+                            <div class="node-content">🖨️ Print & Output</div>
+                        </div>
+                    </div>
+
+                    <div class="branch">
+                        <div class="node level-1 fundamentals" data-info="comments">
+                            <div class="node-content">💬 Comments</div>
+                        </div>
+                    </div>
+
+                    <!-- Control Flow -->
+                    <div class="branch">
+                        <div class="node level-1 control" data-info="control_flow">
+                            <div class="node-content">🔀 Control Flow</div>
+                        </div>
+                        <div class="sub-branches">
+                            <div class="sub-branch">
+                                <div class="node level-2" data-info="if_else">
+                                    <div class="node-content">If / Else</div>
+                                </div>
+                            </div>
+                            <div class="sub-branch">
+                                <div class="node level-2" data-info="loops">
+                                    <div class="node-content">Loops</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Data Structures -->
+                    <div class="branch">
+                        <div class="node level-1 data" data-info="data_structures">
+                            <div class="node-content">📊 Data Structures</div>
+                        </div>
+                    </div>
+
+                    <div class="branch">
+                        <div class="node level-1 data" data-info="iterators">
+                            <div class="node-content">🔁 Iterators</div>
+                        </div>
+                    </div>
+
+                    <div class="branch">
+                        <div class="node level-1 data" data-info="user_input">
+                            <div class="node-content">⌨️ User Input</div>
+                        </div>
+                    </div>
+
+                    <!-- Functions -->
+                    <div class="branch">
+                        <div class="node level-1 control" data-info="common_functions">
+                            <div class="node-content">🔧 Common Functions</div>
+                        </div>
+                    </div>
+
+                    <div class="branch">
+                        <div class="node level-1 control" data-info="functions">
+                            <div class="node-content">⚙️ Defining Functions</div>
+                        </div>
+                    </div>
+
+                    <!-- NumPy -->
+                    <div class="branch">
+                        <div class="node level-1 numpy" data-info="numpy">
+                            <div class="node-content">🔢 NumPy Basics</div>
+                        </div>
+                        <div class="sub-branches">
+                            <div class="sub-branch">
+                                <div class="node level-2" data-info="creating_arrays">
+                                    <div class="node-content">Creating Arrays</div>
+                                </div>
+                            </div>
+                            <div class="sub-branch">
+                                <div class="node level-2" data-info="operations">
+                                    <div class="node-content">Array Operations</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Errors -->
+                    <div class="branch">
+                        <div class="node level-1 application" data-info="errors">
+                            <div class="node-content">⚠️ Common Errors</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Active Tooltip (positioned dynamically) -->
+    <div class="tooltip" id="tooltip"></div>
+
+    <div class="instructions">
+        <span>👆 Click any node to see details</span>
+        <span>📖 Click "Go to page →" to learn more</span>
+    </div>
+
+    <script>
+        // Node information database
+        const nodeInfo = {
+            root: {
+                title: "Python for Computational Techniques",
+                summary: "Learn Python fundamentals through the lens of Chemical Engineering problems. Master variables, loops, functions, and NumPy to solve real engineering equations.",
+                commands: [],
+                link: "../index.html"
+            },
+            parachutist: {
+                title: "The Parachutist Problem",
+                summary: "The central example from your textbook. A falling parachutist demonstrates why we need numerical methods when analytical solutions aren't available.",
+                commands: [
+                    "v_new = v_old + dvdt * dt",
+                    "dvdt = g - (c/m) * v"
+                ],
+                link: "../parachutist_problem.html"
+            },
+            datatypes: {
+                title: "Data Types",
+                summary: "Python's fundamental types: integers (int), decimals (float), text (str), and True/False (bool). Everything in Python is an object with a type.",
+                commands: [
+                    "type(variable)  # Check type",
+                    "int(), float(), str()  # Convert",
+                    "mass = 68.1  # float",
+                    "name = 'methane'  # string"
+                ],
+                link: "../datatypes.html"
+            },
+            variables: {
+                title: "Variables & Operators",
+                summary: "Store values in named containers. Use arithmetic operators (+, -, *, /, **) and comparison operators (==, !=, <, >) to manipulate data.",
+                commands: [
+                    "m = 68.1  # Assignment",
+                    "v = g * t  # Arithmetic",
+                    "x += 1  # Increment",
+                    "a == b  # Comparison"
+                ],
+                link: "../variables.html"
+            },
+            print: {
+                title: "Print & Output",
+                summary: "Display results to screen. Use f-strings for formatted output with variables embedded directly in text.",
+                commands: [
+                    "print('Hello')",
+                    "print(f'v = {velocity:.2f} m/s')",
+                    "print(a, b, sep=', ')"
+                ],
+                link: "../print.html"
+            },
+            comments: {
+                title: "Comments",
+                summary: "Document your code! Single-line comments start with #. Multi-line comments use triple quotes. Good comments explain WHY, not just what.",
+                commands: [
+                    "# This is a comment",
+                    "'''Multi-line",
+                    "   comment'''",
+                    "# TODO: fix this later"
+                ],
+                link: "../comments.html"
+            },
+            control_flow: {
+                title: "Control Flow",
+                summary: "Control which code runs and when. Conditionals (if/else) make decisions. Loops (for/while) repeat code. Essential for any algorithm.",
+                commands: [
+                    "if condition:",
+                    "for i in range(n):",
+                    "while t < t_max:"
+                ],
+                link: "../control_flow/index.html"
+            },
+            if_else: {
+                title: "If / Else Statements",
+                summary: "Make decisions in code. Execute different blocks based on conditions. Use elif for multiple conditions. Indentation matters!",
+                commands: [
+                    "if T > 373:",
+                    "    print('Gas')",
+                    "elif T > 273:",
+                    "    print('Liquid')",
+                    "else:",
+                    "    print('Solid')"
+                ],
+                link: "../control_flow/if_else.html"
+            },
+            loops: {
+                title: "Loops (for & while)",
+                summary: "Repeat code many times. 'for' loops iterate over sequences. 'while' loops run until a condition is false. Use break/continue to control flow.",
+                commands: [
+                    "for i in range(100):",
+                    "while error > tol:",
+                    "break  # Exit loop",
+                    "continue  # Skip iteration"
+                ],
+                link: "../control_flow/loops.html"
+            },
+            data_structures: {
+                title: "Data Structures",
+                summary: "Organize collections of data. Lists are ordered and mutable. Tuples are immutable. Dictionaries store key-value pairs. Sets store unique values.",
+                commands: [
+                    "lst = [1, 2, 3]  # List",
+                    "tup = (1, 2, 3)  # Tuple",
+                    "d = {'H': 1}  # Dict",
+                    "s = {1, 2, 3}  # Set"
+                ],
+                link: "../data_structures.html"
+            },
+            iterators: {
+                title: "Iterators",
+                summary: "Objects that can be looped over. range() generates numbers. enumerate() adds indices. zip() combines sequences. Essential for efficient loops.",
+                commands: [
+                    "range(0, 100, 2)",
+                    "enumerate(list)",
+                    "zip(list1, list2)",
+                    "reversed(list)"
+                ],
+                link: "../iterators.html"
+            },
+            user_input: {
+                title: "User Input",
+                summary: "Get input from users at runtime. input() returns strings, so convert to int/float for numbers. Useful for interactive programs.",
+                commands: [
+                    "name = input('Name: ')",
+                    "n = int(input('N: '))",
+                    "x = float(input('x: '))"
+                ],
+                link: "../user_input.html"
+            },
+            common_functions: {
+                title: "Common Built-in Functions",
+                summary: "Python's built-in toolkit. len() for length, sum() for totals, min()/max() for extremes, sorted() for ordering, abs() for absolute values.",
+                commands: [
+                    "len(list)  # Length",
+                    "sum(values)  # Total",
+                    "min(a), max(a)",
+                    "sorted(list)",
+                    "abs(-5)  # → 5"
+                ],
+                link: "../common_functions.html"
+            },
+            functions: {
+                title: "Defining Functions",
+                summary: "Package reusable code into functions. Use def to define, return to output values. Functions make code modular and testable.",
+                commands: [
+                    "def euler_step(v, dt):",
+                    "    dvdt = g - c/m * v",
+                    "    return v + dvdt * dt",
+                    "",
+                    "v = euler_step(v, 0.5)"
+                ],
+                link: "../functions.html"
+            },
+            numpy: {
+                title: "NumPy Basics",
+                summary: "Numerical Python for fast array operations. Essential for scientific computing. Arrays are faster than lists for math. Vectorized operations avoid loops.",
+                commands: [
+                    "import numpy as np",
+                    "arr = np.array([1,2,3])",
+                    "np.zeros((3, 3))",
+                    "np.linspace(0, 10, 100)"
+                ],
+                link: "../numpy_basics/index.html"
+            },
+            creating_arrays: {
+                title: "Creating NumPy Arrays",
+                summary: "Multiple ways to create arrays. From lists, with zeros/ones, with linspace for even spacing, with arange for step-based sequences.",
+                commands: [
+                    "np.array([1, 2, 3])",
+                    "np.zeros(10)",
+                    "np.ones((3, 4))",
+                    "np.linspace(0, 1, 11)",
+                    "np.arange(0, 10, 0.5)"
+                ],
+                link: "../numpy_basics/creating_arrays.html"
+            },
+            operations: {
+                title: "Array Operations",
+                summary: "Math on entire arrays at once. Element-wise operations without loops. Broadcasting for arrays of different shapes. Much faster than Python loops.",
+                commands: [
+                    "a + b  # Element-wise add",
+                    "a * 2  # Scalar multiply",
+                    "np.sum(a), np.mean(a)",
+                    "a.dot(b)  # Matrix multiply"
+                ],
+                link: "../numpy_basics/operations.html"
+            },
+            errors: {
+                title: "Common Python Errors",
+                summary: "Learn to read error messages! TypeError, NameError, IndexError, KeyError explained. Understanding errors = faster debugging.",
+                commands: [
+                    "TypeError: wrong type",
+                    "NameError: undefined var",
+                    "IndexError: out of range",
+                    "KeyError: missing key"
+                ],
+                link: "../errors.html"
+            }
+        };
+
+        // Handle node clicks
+        document.querySelectorAll('.node').forEach(node => {
+            node.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const infoKey = node.dataset.info;
+                const info = nodeInfo[infoKey];
+                
+                if (!info) return;
+
+                const tooltip = document.getElementById('tooltip');
+                
+                // Build tooltip content
+                let commandsHtml = '';
+                if (info.commands.length > 0) {
+                    commandsHtml = `
+                        <div class="commands">
+                            ${info.commands.map(cmd => `<code>${cmd}</code>`).join('')}
+                        </div>
+                    `;
+                }
+
+                tooltip.innerHTML = `
+                    <h3>${info.title}</h3>
+                    <p>${info.summary}</p>
+                    ${commandsHtml}
+                    <a href="${info.link}" class="go-link">Go to page →</a>
+                `;
+
+                // Position tooltip
+                const rect = node.getBoundingClientRect();
+                const isMobile = window.innerWidth <= 768;
+                
+                if (!isMobile) {
+                    tooltip.style.left = (rect.right + 16) + 'px';
+                    tooltip.style.top = (rect.top + rect.height/2) + 'px';
+                    tooltip.style.transform = 'translateY(-50%)';
+                }
+
+                tooltip.classList.add('show');
+            });
+        });
+
+        // Close tooltip when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.node') && !e.target.closest('.tooltip')) {
+                document.getElementById('tooltip').classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>
