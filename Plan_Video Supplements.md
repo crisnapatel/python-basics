@@ -49,25 +49,34 @@ Each video follows a consistent format:
 
 ```
 ┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
-│  Write      │    │  Render     │    │  Record     │    │  Combine    │
-│  Manim      │ →  │  Manim      │ →  │  Voiceover  │ →  │  Video +    │
-│  Scenes     │    │  (1080p)    │    │  (Audacity) │    │  Audio      │
+│  Write      │    │  Render     │    │  Generate   │    │  Combine    │
+│  Manim      │ →  │  Manim      │ →  │  Audio      │ →  │  Video +    │
+│  Scenes     │    │  (1080p)    │    │  (Coqui)    │    │  Audio      │
 └─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘
                                                                ↓
                                                         ┌─────────────┐
-                                                        │  Embed in   │
-                                                        │  Page       │
+                                                        │  Upload to  │
+                                                        │  YouTube    │
                                                         └─────────────┘
 ```
 
+**Environment**: Ubuntu (Manim + Coqui) → YouTube (NanoScaleModelling channel, dedicated playlist)
+
 **Tools:**
 
-- **Manim Community Edition** — animation
-- **Audacity / OBS** — voiceover recording
+- **Manim Community Edition** — animation (Ubuntu)
+- **Coqui TTS (XTTS v2)** — AI voice cloning from script (Ubuntu, GPU recommended)
+- **manim-voiceover** — syncs TTS audio directly to Manim scenes
 - **FFmpeg** — combine video + audio, compress
-- **YouTube (unlisted)** — hosting (free, no bandwidth concerns)
+- **YouTube** — NanoScaleModelling channel, "Python Basics" playlist
 
-**Alternative for audio:** `manim-voiceover` plugin — syncs TTS or recorded audio directly to scenes.
+**Voice Cloning Setup (one-time):**
+
+1. Record 30-second voice sample (clear speech, no background noise)
+2. Install Coqui: `pip install TTS`
+3. Generate audio: `tts --model_name tts_models/multilingual/multi-dataset/xtts_v2 --text "Script here" --speaker_wav voice_sample.wav --out_path voiceover.wav`
+
+**Alternative**: iMovie on Mac for manual voiceover (slower but more control)
 
 ---
 
@@ -161,10 +170,12 @@ After 2–3 videos, you'll have reusable Manim components (parachutist, code blo
 
 ## Next Actions
 
-1. [ ] Install Manim CE and test basic render
-2. [ ] Build reusable `ParachutistScene` component
-3. [ ] Write script + storyboard for `loops.md` video
-4. [ ] Render first video draft
-5. [ ] Record voiceover and combine
-6. [ ] Embed in page and test
-7. [ ] Gather feedback, iterate
+1. [ ] Record 30-second voice sample for Coqui cloning
+2. [ ] Install Manim CE and Coqui TTS on Ubuntu
+3. [ ] Test voice cloning with a sample sentence
+4. [ ] Build reusable `ParachutistScene` component
+5. [ ] Write script + storyboard for `loops.md` video
+6. [ ] Render first video draft with AI voiceover
+7. [ ] Create "Python Basics" playlist on NanoScaleModelling channel
+8. [ ] Upload and embed in page
+9. [ ] Gather feedback, iterate

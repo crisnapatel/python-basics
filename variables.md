@@ -72,22 +72,6 @@ Output:
 
 This might look strange at first. How can `temperature` equal itself plus 10? Remember, `=` means "assign", not "equals". Python evaluates the right side first (`298.15 + 10 = 308.15`), then stores that result in `temperature`.
 
-```{admonition} 🧩 Try It: Name → Value Visualizer
-:class: tip
-
-Practice the key idea behind variables: a *name* points to a *value*, and `=` can **rebind** the name.
-
-<a href="_static/variables_bindings_visualizer.html" style="display: inline-block; background: #579aca; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 500; margin-top: 8px;">
-▶ Launch Variables Visualizer
-</a>
-
-Suggested mini-task (2 minutes):
-
-1. Run the preset **Copy name, then rebind**.
-2. Predict what `b` will be after `a = 7`.
-3. Explain (in one sentence) why `b` didn’t change.
-```
-
 ### Naming Rules
 
 You can name variables almost anything, but there are a few rules:
