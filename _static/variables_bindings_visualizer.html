@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Variables: Name → Value Visualizer | CHL7002</title>
+  <title>Variables: Predict → Run → Explain | CHL7002</title>
   <style>
     :root {
       --primary-color: #579aca;
@@ -262,6 +262,8 @@
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     }
 
+    .meta.hidden { display: none; }
+
     .obj-card {
       border: 1px solid var(--border);
       border-radius: 8px;
@@ -287,6 +289,8 @@
       color: var(--text-muted);
       font-size: 0.85rem;
     }
+
+    .obj-id.hidden { display: none; }
 
     .obj-val {
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -330,8 +334,8 @@
   <header>
     <div class="header-content">
       <a href="../variables.html" class="back-link">← Back to Variables</a>
-      <h1>Name → Value Visualizer</h1>
-      <p class="subtitle">A teaching model of how assignment and rebinding work</p>
+      <h1>Variables: Predict → Run → Explain</h1>
+      <p class="subtitle">Short, guided practice for assignment and updates</p>
     </div>
   </header>
 
@@ -339,8 +343,8 @@
     <div class="intro-box">
       <h2>What to do (2–3 minutes)</h2>
       <p>
-        Pick a preset, then step through it. Before each line runs, <strong>predict</strong> the new value of the variable being assigned.
-        This helps you build the “trace it in your head” skill you’ll use in loops and debugging.
+        Pick a preset, then step through it. Before each line runs, <strong>predict</strong> the new value of the variable being updated.
+        This builds the “trace it in your head” habit that prevents most beginner mistakes.
       </p>
       <p class="hint">
         Tip: use <span class="kbd">Enter</span> to check your prediction and step.
@@ -352,10 +356,14 @@
         <div class="card">
           <h2>Program</h2>
           <div class="controls-row" style="margin-bottom:0.75rem;">
-            <label class="small" for="presetSelect" style="font-weight:600;">Preset</label>
+            <label class="small" for="presetSelect" style="font-weight:600;">Scenario</label>
             <select id="presetSelect" aria-label="Select preset"></select>
             <span class="pill" id="stepPill">Step 0</span>
             <span class="pill" id="linePill">Line -</span>
+            <label class="small" style="margin-left:auto; display:flex; align-items:center; gap:0.35rem;">
+              <input id="showIdsToggle" type="checkbox" />
+              Show IDs
+            </label>
           </div>
 
           <div id="code" class="codebox" aria-label="Code listing"></div>
@@ -388,8 +396,18 @@
           <h2>Explanation</h2>
           <div class="small" id="explain">—</div>
           <div class="hint" style="margin-top:0.75rem;">
-            Teaching note: this is a simplified memory model designed for beginners. Real Python may reuse some objects internally (especially small integers).
+            Teaching note: this is a simplified model designed for beginners. We focus on the idea that a name points to a value.
           </div>
+        </div>
+
+        <div class="card">
+          <h2>Quick Check: = vs ==</h2>
+          <div class="small">Which line is valid Python?</div>
+          <div class="controls-row" style="margin-top:0.5rem;">
+            <button id="quizAssign">A) <code>x = 5</code></button>
+            <button id="quizCompare">B) <code>x == 5</code></button>
+          </div>
+          <div class="hint" id="quizResult">—</div>
         </div>
       </div>
 
@@ -412,7 +430,7 @@
                 <span class="pill" id="objsCount">0</span>
               </div>
               <div id="objects" class="list" aria-label="Objects"></div>
-              <div class="hint">Rebinding a name usually points it to a new value.</div>
+              <div class="hint">Updating a name usually points it to a new value.</div>
             </div>
           </div>
         </div>
@@ -422,7 +440,7 @@
           <div class="small">
             In Python, <strong><code>=</code> assigns</strong> a result to a name.
             It does not mean “equals” like in math.
-            When you do <code>x = x + 10</code>, Python evaluates the right-hand side first, then rebinds <code>x</code>.
+            When you do <code>x = x + 10</code>, Python evaluates the right-hand side first, then updates <code>x</code>.
           </div>
         </div>
       </div>
@@ -432,17 +450,19 @@
   <script>
     const PRESETS = [
       {
-        id: "rebind",
-        title: "Rebinding a name",
-        description: "A name can point to a new value later.",
+        id: "parachutist_params",
+        title: "Parachutist parameters",
+        description: "Update one parameter without retyping the whole formula.",
         code: [
-          "temperature = 298.15",
-          "temperature = 308.15",
+          "m = 68.1",
+          "c = 12.5",
+          "g = 9.8",
+          "m = 80.0",
         ],
       },
       {
-        id: "update_from_self",
-        title: "Update using itself",
+        id: "temp_update",
+        title: "Update a temperature",
         description: "The classic x = x + 10 pattern.",
         code: [
           "temperature = 298.15",
@@ -450,23 +470,23 @@
         ],
       },
       {
-        id: "copy_then_rebind",
-        title: "Copy name, then rebind",
-        description: "b = a points to the same value; rebinding a doesn't change b.",
+        id: "copy_then_update",
+        title: "Copy a value, then update",
+        description: "b = a keeps its old value when a changes.",
         code: [
-          "a = 5",
-          "b = a",
-          "a = 7",
+          "pressure = 101.3",
+          "p_initial = pressure",
+          "pressure = 95.0",
         ],
       },
       {
         id: "swap",
-        title: "Swap two names",
+        title: "Swap two values",
         description: "Python can swap without a temporary variable.",
         code: [
-          "x = 1",
-          "y = 2",
-          "x, y = y, x",
+          "temp_in = 300",
+          "temp_out = 350",
+          "temp_in, temp_out = temp_out, temp_in",
         ],
       },
     ];
@@ -667,10 +687,8 @@
         const afterObj = state.objects[res.objectId];
         if (!beforeObj) {
           state.lastExplain = `Assigned '${stmt.target}' to ${reprOfValue(afterObj)}. ${res.explain}`;
-        } else if (state.env[stmt.target] === res.objectId) {
-          state.lastExplain = `Rebound '${stmt.target}' to ${reprOfValue(afterObj)}. The name now points to a (possibly new) value.`;
         } else {
-          state.lastExplain = `Updated '${stmt.target}'.`;
+          state.lastExplain = `Updated '${stmt.target}' to ${reprOfValue(afterObj)}. ${res.explain}`;
         }
 
         state.pc += 1;
@@ -723,6 +741,10 @@
     const runAllBtn = el("runAllBtn");
     const namesCountEl = el("namesCount");
     const objsCountEl = el("objsCount");
+    const showIdsToggle = el("showIdsToggle");
+    const quizAssign = el("quizAssign");
+    const quizCompare = el("quizCompare");
+    const quizResult = el("quizResult");
 
     let state = emptyState(PRESETS[0].code);
 
@@ -767,7 +789,7 @@
           left.innerHTML = `<div class="label">${name}</div><div class="small">points to → <strong>${obj ? reprOfValue(obj) : "<undefined>"}</strong></div>`;
 
           const right = document.createElement("div");
-          right.className = "meta";
+          right.className = "meta" + (showIdsToggle.checked ? "" : " hidden");
           right.textContent = oid ? oid : "-";
 
           row.appendChild(left);
@@ -791,7 +813,7 @@
           card.innerHTML = `
             <div class="obj-top">
               <div class="obj-val">${reprOfValue(obj)}</div>
-              <div class="obj-id">${oid}</div>
+              <div class="obj-id${showIdsToggle.checked ? "" : " hidden"}">${oid}</div>
             </div>
             <div class="obj-type">type: <code>${obj.type}</code></div>
           `;
@@ -936,6 +958,15 @@
       renderEverything();
     }
 
+    function setupQuiz() {
+      quizAssign.addEventListener("click", () => {
+        quizResult.textContent = "Correct. 'x = 5' assigns a value to a name.";
+      });
+      quizCompare.addEventListener("click", () => {
+        quizResult.textContent = "Also valid — but it compares values. It does not assign.";
+      });
+    }
+
     // Init UI
     PRESETS.forEach((p) => {
       const opt = document.createElement("option");
@@ -949,6 +980,7 @@
     stepBtn.addEventListener("click", doStep);
     runAllBtn.addEventListener("click", runAll);
     checkBtn.addEventListener("click", checkPrediction);
+    showIdsToggle.addEventListener("change", renderMemory);
 
     // Keyboard: Enter checks prediction then steps.
     predictInputEl.addEventListener("keydown", (e) => {
@@ -959,6 +991,7 @@
       }
     });
 
+    setupQuiz();
     loadPreset(PRESETS[0].id);
   </script>
 </body>
