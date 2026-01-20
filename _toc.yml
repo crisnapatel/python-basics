@@ -1,6 +1,7 @@
 format: jb-book
 root: index
 chapters:
+  - file: try_python
   - file: parachutist_problem
   - file: datatypes
   - file: variables

@@ -15,3 +15,11 @@ html:
 repository:
   url: https://github.com/crisnapatel/python-basics
   branch: main
+
+# Enable JupyterLite for interactive code
+sphinx:
+  extra_extensions:
+    - jupyterlite_sphinx
+  config:
+    jupyterlite_contents: ["notebooks/"]
+    jupyterlite_dir: "lite"
