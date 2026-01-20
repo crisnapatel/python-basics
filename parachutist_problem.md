@@ -8,7 +8,15 @@ Throughout this tutorial, we'll keep coming back to one problem: **a parachutist
 
 By the time you finish this course, you'll be able to simulate this problem yourself.
 
-```{admonition} 🎮 Try the Interactive Simulation
+```{admonition} � Watch the Video Explanation
+:class: note
+
+<iframe width="100%" height="315" src="https://www.youtube.com/embed/dCM_cKIeiX4" title="The Falling Parachutist Problem" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+A 4-minute animated walkthrough of the parachutist problem, Euler's method, and why numerical methods matter.
+```
+
+```{admonition} �🎮 Try the Interactive Simulation
 :class: tip
 
 Want to see Euler's method in action before diving into the math? 
