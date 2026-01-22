@@ -19,47 +19,56 @@ You can't do computational engineering without loops. They're the engine that dr
 
 Use `for` when you know how many times you want to repeat something.
 
-### Taylor Series: Computing e^x Term by Term
+### A Simple Counting Example
 
-Before we solve differential equations, let's see loops in action with something you'll encounter in Lecture 2-3: the Taylor series. The exponential function can be written as:
-
-$$e^x = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots$$
-
-Let's compute this sum term by term:
+Let's start with something basic. Say you want to print "Hello" five times:
 
 ```python
-import math
-
-x = 1.0  # Compute e^1
-n_terms = 8
-result = 0
-term = 1  # First term is 1
-
-for n in range(n_terms):
-    result = result + term
-    print(f"After {n+1} terms: {result:.6f}")
-    term = term * x / (n + 1)  # Compute next term
-
-print(f"\nOur approximation: {result:.6f}")
-print(f"Actual e^{x}:       {math.exp(x):.6f}")
+for i in range(5):
+    print(f"Hello! This is repetition number {i + 1}")
 ```
 
 Output:
 ```
-After 1 terms: 1.000000
-After 2 terms: 2.000000
-After 3 terms: 2.500000
-After 4 terms: 2.666667
-After 5 terms: 2.708333
-After 6 terms: 2.716667
-After 7 terms: 2.718056
-After 8 terms: 2.718254
-
-Our approximation: 2.718254
-Actual e^1.0:       2.718282
+Hello! This is repetition number 1
+Hello! This is repetition number 2
+Hello! This is repetition number 3
+Hello! This is repetition number 4
+Hello! This is repetition number 5
 ```
 
-Each iteration adds one more term to the sum. You can see the approximation getting closer to the true value of $e$. This is truncation—you're truncating an infinite series to a finite number of terms.
+The `range(5)` generates the numbers 0, 1, 2, 3, 4 (five numbers, starting from 0). For each number, Python runs the indented code.
+
+### Summing Up Numbers
+
+What if you want to add up all numbers from 1 to 10? Instead of typing `1 + 2 + 3 + ... + 10`, use a loop:
+
+```python
+total = 0
+
+for number in range(1, 11):
+    total = total + number
+    print(f"Added {number}, total is now {total}")
+
+print(f"\nFinal sum: {total}")
+```
+
+Output:
+```
+Added 1, total is now 1
+Added 2, total is now 3
+Added 3, total is now 6
+...
+Added 10, total is now 55
+
+Final sum: 55
+```
+
+This pattern (start with zero, then add things in a loop) appears everywhere in numerical methods. You'll use it for summing series, computing integrals, and more.
+
+:::{tip}
+**Want to see a more advanced example?** Check out [this notebook](../notebooks/taylor_series_loop.ipynb) where we use a for loop to compute the Taylor series for $e^x$ term by term.
+:::
 
 ### Euler's method for falling parachutist
 
@@ -156,7 +165,7 @@ The formula adds up the function values at each point, with middle points counte
 
 Use `while` when you don't know how many iterations you need. The loop keeps running as long as the condition is `True`.
 
-This is exactly what you need for iterative numerical methods: you keep improving your answer until it's "good enough." But how many iterations will that take? You don't know in advance—that's why you need `while`.
+This is exactly what you need for iterative numerical methods: you keep improving your answer until it's "good enough." But how many iterations will that take? You don't know in advance, and that's why you need `while`.
 
 ### How while works
 
@@ -214,7 +223,7 @@ Iteration 4: x = 0.56714329, error = 1.24e-07
 Converged! Root = 0.567143
 ```
 
-Notice how the error drops rapidly—that's the quadratic convergence of Newton-Raphson. In just 4 iterations, we went from a rough guess to a highly accurate answer.
+Notice how the error drops rapidly. That's the quadratic convergence of Newton-Raphson. In just 4 iterations, we went from a rough guess to a highly accurate answer.
 
 ### The Bisection Method
 

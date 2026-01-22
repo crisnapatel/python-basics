@@ -124,7 +124,7 @@ The notation `1e-6` is Python's way of writing $10^{-6}$ (scientific notation). 
 
 Why are these variables so important? Because you'll often want to experiment:
 - What happens if I use a smaller tolerance? (More accurate, but more iterations)
-- What if I increase the step size? (Faster, but less accurate—maybe unstable!)
+- What if I increase the step size? (Faster, but less accurate, and maybe unstable!)
 
 By making these parameters variables, you can easily change them and see the effects.
 

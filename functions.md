@@ -73,6 +73,84 @@ for T in [273, 298, 373]:
     print(f"T = {T} K: V = {V:.4f} m^3")
 ```
 
+---
+
+## Numerical Methods: Encapsulating an Algorithm
+
+In this course, you'll often wrap an entire numerical method in a function. Here's bisection:
+
+```python
+def bisection(f, a, b, tolerance=1e-6):
+    """
+    Find root of f(x) between a and b using bisection.
+    
+    Parameters:
+        f: The function to find root of
+        a, b: Initial bracket (f(a) and f(b) must have opposite signs)
+        tolerance: Stop when interval is smaller than this
+    
+    Returns:
+        Approximate root
+    """
+    while (b - a) > tolerance:
+        mid = (a + b) / 2
+        if f(a) * f(mid) < 0:
+            b = mid
+        else:
+            a = mid
+    return (a + b) / 2
+```
+
+Now you can find the root of *any* function:
+
+```python
+def my_equation(x):
+    return x**3 - x - 2
+
+root = bisection(my_equation, 1, 2)
+print(f"Root: {root:.6f}")
+```
+
+Output:
+```
+Root: 1.521380
+```
+
+Notice how `bisection` takes a function `f` as a parameter. This is powerful: you write the algorithm once, and it works for any equation you pass to it.
+
+---
+
+## Returning Multiple Values
+
+Sometimes a function needs to return more than one thing. For numerical methods, you often want both the answer and some information about how you got there (like how many iterations it took).
+
+```python
+def bisection_with_count(f, a, b, tolerance=1e-6):
+    """Returns both the root AND the number of iterations."""
+    iterations = 0
+    
+    while (b - a) > tolerance:
+        mid = (a + b) / 2
+        if f(a) * f(mid) < 0:
+            b = mid
+        else:
+            a = mid
+        iterations = iterations + 1
+    
+    return (a + b) / 2, iterations  # Return two values!
+
+# Unpack the two returned values
+root, count = bisection_with_count(my_equation, 1, 2)
+print(f"Root = {root:.6f} found in {count} iterations")
+```
+
+Output:
+```
+Root = 1.521380 found in 20 iterations
+```
+
+---
+
 ## Example: Analytical vs Numerical
 
 ```python

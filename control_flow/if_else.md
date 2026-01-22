@@ -77,7 +77,7 @@ if not (T > 373):
 
 ## Numerical Methods: Convergence Checking
 
-Here's the pattern you'll use constantly in this course. Almost every iterative method—bisection, Newton-Raphson, Gauss-Seidel—needs to know when to stop. The answer? Check if the error is small enough:
+Here's the pattern you'll use constantly in this course. Almost every iterative method (bisection, Newton-Raphson, Gauss-Seidel) needs to know when to stop. The answer? Check if the error is small enough:
 
 ```python
 tolerance = 1e-6  # Stop when error is below this threshold
@@ -176,7 +176,7 @@ Output:
 Two real roots: 3.0, 2.0
 ```
 
-You'll encounter this exact pattern when solving the van der Waals equation of state for molar volume—it's a cubic equation, and checking for root types helps you understand the physical behavior of the gas.
+You'll encounter this exact pattern when solving the van der Waals equation of state for molar volume. It's a cubic equation, and checking for root types helps you understand the physical behavior of the gas.
 
 ## Common Mistake
 
