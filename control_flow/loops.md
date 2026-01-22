@@ -19,6 +19,48 @@ You can't do computational engineering without loops. They're the engine that dr
 
 Use `for` when you know how many times you want to repeat something.
 
+### Taylor Series: Computing e^x Term by Term
+
+Before we solve differential equations, let's see loops in action with something you'll encounter in Lecture 2-3: the Taylor series. The exponential function can be written as:
+
+$$e^x = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots$$
+
+Let's compute this sum term by term:
+
+```python
+import math
+
+x = 1.0  # Compute e^1
+n_terms = 8
+result = 0
+term = 1  # First term is 1
+
+for n in range(n_terms):
+    result = result + term
+    print(f"After {n+1} terms: {result:.6f}")
+    term = term * x / (n + 1)  # Compute next term
+
+print(f"\nOur approximation: {result:.6f}")
+print(f"Actual e^{x}:       {math.exp(x):.6f}")
+```
+
+Output:
+```
+After 1 terms: 1.000000
+After 2 terms: 2.000000
+After 3 terms: 2.500000
+After 4 terms: 2.666667
+After 5 terms: 2.708333
+After 6 terms: 2.716667
+After 7 terms: 2.718056
+After 8 terms: 2.718254
+
+Our approximation: 2.718254
+Actual e^1.0:       2.718282
+```
+
+Each iteration adds one more term to the sum. You can see the approximation getting closer to the true value of $e$. This is truncation—you're truncating an infinite series to a finite number of terms.
+
 ### Euler's method for falling parachutist
 
 The loop repeats the indented code for each value of `t`. Here, `range(0, 14, 2)` gives us: 0, 2, 4, 6, 8, 10, 12.
@@ -75,13 +117,46 @@ ethane
 propane
 ```
 
+### Numerical Integration: Composite Trapezoidal Rule
+
+When you need to compute a definite integral numerically, you divide it into segments and sum up the areas. Here's how to integrate $\int_0^2 x^2 \, dx$:
+
+```python
+def f(x):
+    return x**2
+
+a, b = 0, 2       # Integration limits
+n = 4             # Number of segments
+h = (b - a) / n   # Width of each segment
+
+# Trapezoidal rule: sum up trapezoid areas
+integral = f(a) + f(b)  # First and last terms
+
+for i in range(1, n):
+    x_i = a + i * h
+    integral = integral + 2 * f(x_i)  # Middle terms are weighted by 2
+
+integral = integral * h / 2
+
+print(f"Computed integral: {integral:.4f}")
+print(f"Exact answer: {2**3 / 3:.4f}")  # ∫x² = x³/3
+```
+
+Output:
+```
+Computed integral: 2.7500
+Exact answer: 2.6667
+```
+
+The formula adds up the function values at each point, with middle points counted twice (that's the "2 *" in the loop). You'll learn why in the numerical integration lectures.
+
 ---
 
 ## While Loop
 
 Use `while` when you don't know how many iterations you need. The loop keeps running as long as the condition is `True`.
 
-This is exactly what you need for computing the Maclaurin series for $e^x$: you keep adding terms until the approximate error falls below your tolerance. You don't know in advance how many terms that will take.
+This is exactly what you need for iterative numerical methods: you keep improving your answer until it's "good enough." But how many iterations will that take? You don't know in advance—that's why you need `while`.
 
 ### How while works
 
@@ -96,6 +171,76 @@ Output: `0, 1, 2` (stops when count becomes 3)
 :::{warning}
 Always update the variable in your condition! Otherwise the loop runs forever.
 :::
+
+### Numerical Methods: Newton-Raphson Until Convergence
+
+This is the most important while loop pattern in the course. Newton-Raphson finds roots by repeatedly improving a guess until the error is small enough:
+
+```python
+import math
+
+# Find x where e^(-x) = x (i.e., solve e^(-x) - x = 0)
+def f(x):
+    return math.exp(-x) - x
+
+def df(x):
+    return -math.exp(-x) - 1  # derivative of f
+
+x = 0.0        # Initial guess
+tolerance = 1e-6
+iteration = 0
+
+while True:
+    x_new = x - f(x) / df(x)  # Newton-Raphson formula
+    error = abs(x_new - x)
+    iteration = iteration + 1
+    
+    print(f"Iteration {iteration}: x = {x_new:.8f}, error = {error:.2e}")
+    
+    if error < tolerance:
+        print(f"\nConverged! Root = {x_new:.6f}")
+        break
+    
+    x = x_new
+```
+
+Output:
+```
+Iteration 1: x = 0.50000000, error = 5.00e-01
+Iteration 2: x = 0.56631100, error = 6.63e-02
+Iteration 3: x = 0.56714317, error = 8.32e-04
+Iteration 4: x = 0.56714329, error = 1.24e-07
+
+Converged! Root = 0.567143
+```
+
+Notice how the error drops rapidly—that's the quadratic convergence of Newton-Raphson. In just 4 iterations, we went from a rough guess to a highly accurate answer.
+
+### The Bisection Method
+
+Bisection is slower but guaranteed to work. You keep halving an interval until it's small enough:
+
+```python
+def f(x):
+    return x**3 - x - 2  # Find root of this function
+
+x_lower, x_upper = 1.0, 2.0  # Initial bracket
+tolerance = 1e-6
+
+while (x_upper - x_lower) > tolerance:
+    x_mid = (x_lower + x_upper) / 2
+    
+    if f(x_lower) * f(x_mid) < 0:
+        x_upper = x_mid  # Root is in lower half
+    else:
+        x_lower = x_mid  # Root is in upper half
+    
+    print(f"Bracket: [{x_lower:.6f}, {x_upper:.6f}], width = {x_upper - x_lower:.2e}")
+
+print(f"\nRoot ≈ {(x_lower + x_upper) / 2:.6f}")
+```
+
+The key insight: `if f(x_lower) * f(x_mid) < 0` checks if there's a sign change. If yes, the root must be in that half. This is the bracket-checking pattern you learned in the if/else section!
 
 ### Example: iterate until convergence
 

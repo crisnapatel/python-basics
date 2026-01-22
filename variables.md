@@ -105,6 +105,29 @@ print(m ** 2)   # Power (exponent): 4637.61
 
 These *parameters* define the physical system you're modeling. In numerical methods, you'll see this pattern constantly: define your parameters as variables, then write formulas using those variables.
 
+### Numerical Methods: Tolerances and Step Sizes
+
+In this course, you'll encounter some variables so often they deserve special mention:
+
+```python
+# Stopping criteria for iterative methods
+tolerance = 1e-6          # Stop when error is below 0.000001
+max_iterations = 100      # Safety limit to prevent infinite loops
+
+# Step sizes for numerical integration and ODEs
+h = 0.01                  # Step size for Euler's method
+dt = 0.001                # Time step for simulations
+dx = 0.1                  # Spatial step for finite differences
+```
+
+The notation `1e-6` is Python's way of writing $10^{-6}$ (scientific notation). You'll use this constantly for tolerances.
+
+Why are these variables so important? Because you'll often want to experiment:
+- What happens if I use a smaller tolerance? (More accurate, but more iterations)
+- What if I increase the step size? (Faster, but less accurate—maybe unstable!)
+
+By making these parameters variables, you can easily change them and see the effects.
+
 ### Integer Division and Remainder
 
 Two operators might be less familiar:

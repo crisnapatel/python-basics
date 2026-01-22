@@ -35,9 +35,9 @@ This is an interactive [Jupyter Book](https://jupyterbook.org/) website that tea
 
 ## Interactive Features
 
-- **🎮 Parachutist Simulation** — Adjust mass, drag, and time step to visualize Euler's method in action
-- **🗺️ Mind Map** — Collapsible tree view of all Python concepts with code examples
-- **🐍 Python Playground** — JupyterLite environment to run code directly in your browser (no installation)
+- **Parachutist Simulation** — Adjust mass, drag, and time step to visualize Euler's method in action
+- **Mind Map** — Collapsible tree view of all Python concepts with code examples
+- **Python Playground** — JupyterLite environment to run code directly in your browser (no installation)
 
 ---
 
@@ -46,8 +46,6 @@ This is an interactive [Jupyter Book](https://jupyterbook.org/) website that tea
 **For Students:** Just visit the [live site](https://crisnapatel.github.io/python-basics/) and start learning!
 
 **For Developers/Contributors:**
-
-Contributions are welcome! I'm happy to receive merge requests for improvements, fixes, or new content.
 
 ```bash
 # Clone the repository
