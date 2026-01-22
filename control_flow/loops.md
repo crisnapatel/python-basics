@@ -66,10 +66,6 @@ Final sum: 55
 
 This pattern (start with zero, then add things in a loop) appears everywhere in numerical methods. You'll use it for summing series, computing integrals, and more.
 
-:::{tip}
-**Want to see a more advanced example?** Check out [this notebook](../notebooks/taylor_series_loop.ipynb) where we use a for loop to compute the Taylor series for $e^x$ term by term.
-:::
-
 ### Euler's method for falling parachutist
 
 The loop repeats the indented code for each value of `t`. Here, `range(0, 14, 2)` gives us: 0, 2, 4, 6, 8, 10, 12.
@@ -126,39 +122,6 @@ ethane
 propane
 ```
 
-### Numerical Integration: Composite Trapezoidal Rule
-
-When you need to compute a definite integral numerically, you divide it into segments and sum up the areas. Here's how to integrate $\int_0^2 x^2 \, dx$:
-
-```python
-def f(x):
-    return x**2
-
-a, b = 0, 2       # Integration limits
-n = 4             # Number of segments
-h = (b - a) / n   # Width of each segment
-
-# Trapezoidal rule: sum up trapezoid areas
-integral = f(a) + f(b)  # First and last terms
-
-for i in range(1, n):
-    x_i = a + i * h
-    integral = integral + 2 * f(x_i)  # Middle terms are weighted by 2
-
-integral = integral * h / 2
-
-print(f"Computed integral: {integral:.4f}")
-print(f"Exact answer: {2**3 / 3:.4f}")  # ∫x² = x³/3
-```
-
-Output:
-```
-Computed integral: 2.7500
-Exact answer: 2.6667
-```
-
-The formula adds up the function values at each point, with middle points counted twice (that's the "2 *" in the loop). You'll learn why in the numerical integration lectures.
-
 ---
 
 ## While Loop
@@ -181,77 +144,7 @@ Output: `0, 1, 2` (stops when count becomes 3)
 Always update the variable in your condition! Otherwise the loop runs forever.
 :::
 
-### Numerical Methods: Newton-Raphson Until Convergence
-
-This is the most important while loop pattern in the course. Newton-Raphson finds roots by repeatedly improving a guess until the error is small enough:
-
-```python
-import math
-
-# Find x where e^(-x) = x (i.e., solve e^(-x) - x = 0)
-def f(x):
-    return math.exp(-x) - x
-
-def df(x):
-    return -math.exp(-x) - 1  # derivative of f
-
-x = 0.0        # Initial guess
-tolerance = 1e-6
-iteration = 0
-
-while True:
-    x_new = x - f(x) / df(x)  # Newton-Raphson formula
-    error = abs(x_new - x)
-    iteration = iteration + 1
-    
-    print(f"Iteration {iteration}: x = {x_new:.8f}, error = {error:.2e}")
-    
-    if error < tolerance:
-        print(f"\nConverged! Root = {x_new:.6f}")
-        break
-    
-    x = x_new
-```
-
-Output:
-```
-Iteration 1: x = 0.50000000, error = 5.00e-01
-Iteration 2: x = 0.56631100, error = 6.63e-02
-Iteration 3: x = 0.56714317, error = 8.32e-04
-Iteration 4: x = 0.56714329, error = 1.24e-07
-
-Converged! Root = 0.567143
-```
-
-Notice how the error drops rapidly. That's the quadratic convergence of Newton-Raphson. In just 4 iterations, we went from a rough guess to a highly accurate answer.
-
-### The Bisection Method
-
-Bisection is slower but guaranteed to work. You keep halving an interval until it's small enough:
-
-```python
-def f(x):
-    return x**3 - x - 2  # Find root of this function
-
-x_lower, x_upper = 1.0, 2.0  # Initial bracket
-tolerance = 1e-6
-
-while (x_upper - x_lower) > tolerance:
-    x_mid = (x_lower + x_upper) / 2
-    
-    if f(x_lower) * f(x_mid) < 0:
-        x_upper = x_mid  # Root is in lower half
-    else:
-        x_lower = x_mid  # Root is in upper half
-    
-    print(f"Bracket: [{x_lower:.6f}, {x_upper:.6f}], width = {x_upper - x_lower:.2e}")
-
-print(f"\nRoot ≈ {(x_lower + x_upper) / 2:.6f}")
-```
-
-The key insight: `if f(x_lower) * f(x_mid) < 0` checks if there's a sign change. If yes, the root must be in that half. This is the bracket-checking pattern you learned in the if/else section!
-
-### Example: iterate until convergence
+### Example: Iterate Until a Condition is Met
 
 How long until the parachutist reaches 99% of terminal velocity? We don't know in advance, so we use `while`.
 
@@ -295,6 +188,14 @@ while concentration > 0.1:
 ## Next Steps
 
 Continue to [Data Structures](../data_structures.md) to learn about lists, dictionaries, and more.
+
+:::{tip}
+**Want to see loops in numerical methods?** After learning [Functions](../functions.md), check out these interactive notebooks:
+- [Newton-Raphson Method](../notebooks/newton_raphson.ipynb): While loops for iterating until convergence
+- [Bisection Method](../notebooks/bisection_method.ipynb): Combining while loops with bracket checking
+- [Trapezoidal Rule](../notebooks/trapezoidal_rule.ipynb): For loops for numerical integration
+- [Taylor Series](../notebooks/taylor_series_loop.ipynb): For loops to compute infinite series
+:::
 
 :::{tip}
 For advanced loop patterns like `enumerate()`, `zip()`, and list comprehensions, see [Iterators and Looping Patterns](../iterators.md) after you've learned about data structures.

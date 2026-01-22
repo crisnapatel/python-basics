@@ -48,5 +48,5 @@ For quick one-liners, try the Pyodide console directly:
 
 Once you've verified Python works, continue to:
 
-1. **[Data Types](datatypes.md)** — Learn about integers, floats, strings, and booleans
-2. **[Variables](variables.md)** — Store and manipulate values
+1. **[Data Types](datatypes.md)** - Learn about integers, floats, strings, and booleans
+2. **[Variables](variables.md)** - Store and manipulate values

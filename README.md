@@ -35,9 +35,9 @@ This is an interactive [Jupyter Book](https://jupyterbook.org/) website that tea
 
 ## Interactive Features
 
-- **Parachutist Simulation** — Adjust mass, drag, and time step to visualize Euler's method in action
-- **Mind Map** — Collapsible tree view of all Python concepts with code examples
-- **Python Playground** — JupyterLite environment to run code directly in your browser (no installation)
+- **Parachutist Simulation** - Adjust mass, drag, and time step to visualize Euler's method in action
+- **Mind Map** - Collapsible tree view of all Python concepts with code examples
+- **Python Playground** - JupyterLite environment to run code directly in your browser (no installation)
 
 ---
 

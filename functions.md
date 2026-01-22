@@ -185,6 +185,18 @@ print(f"Error: {abs(v_exact - v_euler):.2f} m/s")
 For documenting your functions, see the docstrings section in [Comments](comments.md).
 :::
 
+---
+
+## See Functions in Action
+
+Now that you understand functions, try these interactive notebooks that use functions to implement numerical methods:
+
+- [Newton-Raphson Method](notebooks/newton_raphson.ipynb): Root finding with quadratic convergence
+- [Bisection Method](notebooks/bisection_method.ipynb): Guaranteed root finding
+- [Trapezoidal Rule](notebooks/trapezoidal_rule.ipynb): Numerical integration
+
+---
+
 ## Next Steps
 
 With functions, you can write modular, reusable code. Continue to [NumPy Basics](numpy_basics/index.md) to learn about efficient numerical computing with arrays.
