@@ -191,10 +191,10 @@ Continue to [Data Structures](../data_structures.md) to learn about lists, dicti
 
 :::{tip}
 **Want to see loops in numerical methods?** After learning [Functions](../functions.md), check out these interactive notebooks:
-- [Newton-Raphson Method](../notebooks/newton_raphson.ipynb): While loops for iterating until convergence
-- [Bisection Method](../notebooks/bisection_method.ipynb): Combining while loops with bracket checking
-- [Trapezoidal Rule](../notebooks/trapezoidal_rule.ipynb): For loops for numerical integration
-- [Taylor Series](../notebooks/taylor_series_loop.ipynb): For loops to compute infinite series
+- <a href="../lite/lab/index.html?path=newton_raphson.ipynb" target="_blank">Newton-Raphson Method</a>: While loops for iterating until convergence
+- <a href="../lite/lab/index.html?path=bisection_method.ipynb" target="_blank">Bisection Method</a>: Combining while loops with bracket checking
+- <a href="../lite/lab/index.html?path=trapezoidal_rule.ipynb" target="_blank">Trapezoidal Rule</a>: For loops for numerical integration
+- <a href="../lite/lab/index.html?path=taylor_series_loop.ipynb" target="_blank">Taylor Series</a>: For loops to compute infinite series
 :::
 
 :::{tip}

@@ -191,9 +191,9 @@ For documenting your functions, see the docstrings section in [Comments](comment
 
 Now that you understand functions, try these interactive notebooks that use functions to implement numerical methods:
 
-- [Newton-Raphson Method](notebooks/newton_raphson.ipynb): Root finding with quadratic convergence
-- [Bisection Method](notebooks/bisection_method.ipynb): Guaranteed root finding
-- [Trapezoidal Rule](notebooks/trapezoidal_rule.ipynb): Numerical integration
+- <a href="lite/lab/index.html?path=newton_raphson.ipynb" target="_blank">Newton-Raphson Method</a>: Root finding with quadratic convergence
+- <a href="lite/lab/index.html?path=bisection_method.ipynb" target="_blank">Bisection Method</a>: Guaranteed root finding
+- <a href="lite/lab/index.html?path=trapezoidal_rule.ipynb" target="_blank">Trapezoidal Rule</a>: Numerical integration
 
 ---
 
