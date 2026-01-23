@@ -3,35 +3,35 @@ title: NumPy Basics
 ---
 # NumPy Basics
 
-## Why Lists Aren't Enough
+## Why Do I Need This?
 
-You've been using Python lists to store data, and they work great for small collections. But imagine you're running Euler's method with 10,000 timesteps, or processing sensor data with 1 million readings.
-
-Try this with lists:
+You've been using Python lists, and they work fine for small things. But try running Euler's method with 10,000 timesteps:
 
 ```python
-# Slow: looping through lists
+# With lists: slow and painful
 velocities = [0.0] * 10000
 for i in range(1, 10000):
-    velocities[i] = velocities[i-1] + 0.1
+    velocities[i] = velocities[i-1] + 0.1 * some_formula
 ```
 
-This works, but it's slow. NumPy does the same thing *much* faster:
+Now imagine doing this for a 2D grid with 1 million points. Lists will take forever.
 
-```python
-import numpy as np
+**NumPy arrays are built for this.** They're:
+- 10-100x faster than lists for numerical operations
+- Designed for mathematical formulas (no loops needed!)
+- The foundation of all scientific Python
 
-# Fast: NumPy array operations
-velocities = np.zeros(10000)
-# Vectorized operations work on entire arrays at once
-```
+If you're solving differential equations, processing data, or doing any serious computation, you'll use NumPy. It's not optional.
 
-NumPy arrays are designed for numerical computing. They're faster, use less memory, and support mathematical operations that work on entire arrays at once.
+---
 
-:::{note}
-If you're solving ODEs, processing experimental data, or doing any serious numerical work, you'll use NumPy. It's the foundation of scientific Python.
-:::
+## What You'll Learn
 
-## Topics
-- [Creating Arrays](creating_arrays.md): Making arrays from lists, generating sequences
-- [Array Operations](operations.md): Math on entire arrays at once
+### [Creating Arrays](creating_arrays.md)
+How to make arrays of zeros, evenly-spaced grids, and 2D matrices. These are the building blocks for every numerical method.
+
+### [Array Operations](operations.md)
+The superpower: doing math on entire arrays at once. Write formulas that apply to thousands of values without a single loop.
+
+### [Useful Functions](useful_functions.md)
+A reference for common tasks: checking array shape, reshaping, random numbers, sorting, searching, and more.

@@ -120,6 +120,15 @@ dt = 0.001                # Time step for simulations
 dx = 0.1                  # Spatial step for finite differences
 ```
 
+**Tip:** You can declare and assign multiple variables in a single line using commas:
+
+```python
+h, dt, dx, iterations, max_tolerance = 0.01, 0.001, 0.1, 100, 1e-6
+h, dt, dx = 0.01, 0.001, 0.1
+```
+
+This is convenient when initializing related parameters together.
+
 The notation `1e-6` is Python's way of writing $10^{-6}$ (scientific notation). You'll use this constantly for tolerances.
 
 Why are these variables so important? Because you'll often want to experiment:

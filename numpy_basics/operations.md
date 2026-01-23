@@ -3,153 +3,229 @@ title: Array Operations
 ---
 # Array Operations
 
-## Math on Entire Arrays at Once
+## The Superpower: Math Without Loops
 
-With Python lists, you'd need a loop to add two lists element by element. With NumPy, mathematical operations automatically apply to every element. This is called *vectorization*.
+In the previous page, you learned to create arrays. Now let's see why they're so powerful.
+
+Say you have temperature readings from 1000 sensors and need to convert them all from Celsius to Fahrenheit. With a list, you'd write a loop:
+
+```python
+temps_c = [20.0, 21.5, 19.8, ...]  # 1000 values
+temps_f = []
+for t in temps_c:
+    temps_f.append(t * 9/5 + 32)
+```
+
+With NumPy, you just write the formula:
 
 ```python
 import numpy as np
 
-a = np.array([1, 2, 3])
-b = np.array([4, 5, 6])
+temps_c = [20.0, 21.5, 19.8, ...]  # 1000 values
+temps_c = np.array(temps_c)  # convert your list to an array
+temps_f = temps_c * 9/5 + 32  # Done. All 1000 converted.
+```
 
-print(a + b)        # Element-wise addition
-print(a * 2)        # Multiply every element by 2
-print(a * b)        # Element-wise multiplication
-print(np.dot(a, b)) # Dot product
+One line. No loop. And it runs about 100x faster.
+
+This is called **vectorization**: the operation applies to every element automatically. It's not just convenient; it's how you'll write every formula in this course.
+
+---
+
+## All the Math Operators Work
+
+You can use `+`, `-`, `*`, `/`, and `**` directly on arrays:
+
+```python
+import numpy as np
+
+list1 = [1, 2, 3, 4]
+list2 = [10, 20, 30, 40]
+a = np.array(list1)     # convert both lists to array
+b = np.array(list2)
+
+print(a + b)
+print(a * b)      #   (element-by-element, not matrix multiply!)
+print(a ** 2) 
+```
+Output:
+```
+[11 22 33 44]
+[10 40 90 160]
+[1 4 9 16]
+```
+
+Notice that `a * b` multiplies each pair of elements. This is exactly what you want when you write formulas like $F = ma$ where both $m$ and $a$ are arrays.
+
+---
+
+## Functions Work on Entire Arrays Too
+
+What if you need $\sin(x)$ for 100 different x-values? NumPy has versions of all the math functions:
+
+```python
+import numpy as np
+
+x = np.linspace(0, 2*np.pi, 5)
+print("x    =", x)
+print("sin(x) =", np.sin(x))
 ```
 
 Output:
 ```
-[5 7 9]
-[2 4 6]
-[4 10 18]
-32
+x     = [0.         1.57079633 3.14159265 4.71238898 6.28318531]
+sin(x) = [ 0.  1.  0. -1. -0.]
 ```
 
-This is why NumPy is essential for numerical methods: you can express mathematical formulas directly without writing loops.
+Use `np.sin`, `np.cos`, `np.exp`, `np.log`, `np.sqrt` instead of the `math` module versions. They work on arrays; the `math` versions don't.
 
 ---
 
-## Numerical Methods: Vectorized Finite Differences
+## Putting It Together: A Real Formula
 
-Here's where NumPy really shines. In the explicit finite difference method for the heat equation, you need to update every interior point based on its neighbors:
+Let's see this in action with the falling parachutist. The analytical solution is:
 
-$$T_i^{new} = T_i + \lambda (T_{i+1} - 2T_i + T_{i-1})$$
+$$v(t) = \frac{gm}{c}\left(1 - e^{-\frac{c}{m}t}\right)$$
 
-With loops, this would be:
-```python
-# Slow loop version
-for i in range(1, n-1):
-    T_new[i] = T[i] + lam * (T[i+1] - 2*T[i] + T[i-1])
-```
-
-With NumPy slicing, it's one line:
-```python
-# Fast vectorized version
-T_new[1:-1] = T[1:-1] + lam * (T[2:] - 2*T[1:-1] + T[:-2])
-```
-
-Both do the same thing, but the NumPy version is much faster for large arrays.
-
-### Understanding the Slicing
-
-- `T[1:-1]` means "all elements except the first and last" (interior points)
-- `T[2:]` means "all elements starting from index 2" (right neighbors)
-- `T[:-2]` means "all elements except the last two" (left neighbors)
-
----
-
-## Computing Errors
-
-When comparing numerical results to exact solutions, you often need error norms:
+Instead of computing this one time value at a time, we compute it for many times at once:
 
 ```python
 import numpy as np
 
-y_exact = np.array([1.0, 2.0, 3.0, 4.0])
-y_numerical = np.array([1.1, 1.9, 3.2, 3.8])
+g, m, c = 9.8, 68.1, 12.5       # Yes, you can write many variable and assign them values in a sinlge line! Just keep them comma separated.
+t = np.array([0, 2, 4, 6, 8, 10])
 
-error = y_exact - y_numerical
+v = (g * m / c) * (1 - np.exp(-c/m * t))
 
-# Maximum absolute error (L-infinity norm)
-max_error = np.max(np.abs(error))
-
-# Root mean square error
-rms_error = np.sqrt(np.mean(error**2))
-
-print(f"Max error: {max_error}")
-print(f"RMS error: {rms_error:.4f}")
+print("Time (s):    ", t)
+print("Velocity (m/s):", np.round(v, 2))
 ```
 
 Output:
 ```
-Max error: 0.2
-RMS error: 0.1581
+Time (s):     [ 0  2  4  6  8 10]
+Velocity (m/s): [ 0.   16.42 27.77 35.64 41.1  44.87]
 ```
+
+The formula looks almost identical to the math. No loops, no indexing. This is how you'll implement numerical methods.
 
 ---
 
-## Solving Linear Systems
+## Getting a Single Number: Sum, Mean, Max
 
-For systems of linear equations $Ax = b$ (Gauss elimination, LU decomposition topics), NumPy provides a direct solver:
+Sometimes you need to reduce an array to a single value. For example, computing the average temperature or finding the maximum error:
 
 ```python
 import numpy as np
 
-# System: 4x - y = 1
-#        -x + 3y = 5
+data = np.array([3.2, 4.1, 2.8, 5.0, 3.9])
+
+print(f"Sum:  {np.sum(data)}")   # 19.0
+print(f"Mean: {np.mean(data)}")  # 3.8
+print(f"Max:  {np.max(data)}")   # 5.0
+print(f"Min:  {np.min(data)}")   # 2.8
+```
+
+You'll use these constantly when checking convergence or computing errors:
+
+```python
+errors = np.abs(numerical - exact)
+max_error = np.max(errors)
+print(f"Maximum error: {max_error}")
+```
+
+---
+
+## Slicing: Accessing Neighbors
+
+Now here's a pattern that's essential for finite differences. In PDEs, you need to access the left neighbor, current point, and right neighbor of every interior point.
+
+Look at this array of temperatures along a rod:
+
+```python
+T = np.array([100, 80, 60, 40, 20, 0])
+#              0    1   2   3   4   5  (indices)
+```
+
+With slicing, you can grab different parts:
+
+```python
+print(T[1:-1])   # Interior points: [80 60 40 20]
+print(T[:-2])    # Left neighbors:  [100 80 60 40]
+print(T[2:])     # Right neighbors: [60 40 20 0]
+```
+
+Why does this matter? The heat equation update formula is:
+
+$$T_i^{new} = T_i + \lambda(T_{i-1} - 2T_i + T_{i+1})$$
+
+With slicing, you write this as one line:
+
+```python
+lam = 0.4
+T_new = T.copy()
+T_new[1:-1] = T[1:-1] + lam * (T[:-2] - 2*T[1:-1] + T[2:])
+```
+
+This updates all interior points at once. No loop. You'll learn more when we cover PDEs, but the key idea is: slicing lets you express the math directly.
+
+---
+
+## Solving Linear Systems (Preview)
+
+Later in the course, you'll solve systems of equations like:
+- $4x - y = 1$
+- $-x + 3y = 5$
+
+NumPy can solve these directly:
+
+```python
+import numpy as np
 
 A = np.array([[4, -1],
               [-1, 3]])
 b = np.array([1, 5])
 
 x = np.linalg.solve(A, b)
-print(f"Solution: x = {x}")
+print(f"Solution: x = {x[0]:.4f}, y = {x[1]:.4f}")
 ```
 
 Output:
 ```
-Solution: x = [0.72727273 1.90909091]
+Solution: x = 0.7273, y = 1.9091
 ```
 
-You'll learn *how* this works in the linear algebra section of the course. For now, know that NumPy can solve these systems efficiently.
-
----
-
-## Mathematical Functions
-
-NumPy provides versions of math functions that work on entire arrays:
-
-```python
-import numpy as np
-
-x = np.linspace(0, 2*np.pi, 5)
-
-print(f"x = {x}")
-print(f"sin(x) = {np.sin(x)}")
-print(f"exp(x) = {np.exp(x)}")
-```
-
-Output:
-```
-x = [0.         1.57079633 3.14159265 4.71238898 6.28318531]
-sin(x) = [ 0.0000e+00  1.0000e+00  1.2246e-16 -1.0000e+00 -2.4493e-16]
-exp(x) = [  1.           4.81047738  23.14069263 111.31777849 535.49165552]
-```
+You'll learn *how* Gauss elimination works later. For now, just know the tool exists.
 
 ---
 
 ## Quick Reference
 
-| Operation | Syntax | Result |
-|-----------|--------|--------|
-| Add arrays | `a + b` | Element-wise sum |
-| Scalar multiply | `a * 2` | Each element × 2 |
-| Element-wise multiply | `a * b` | Each element × corresponding element |
-| Dot product | `np.dot(a, b)` | Sum of a[i]*b[i] |
-| Sum all elements | `np.sum(a)` | Single number |
-| Mean | `np.mean(a)` | Average value |
-| Max/Min | `np.max(a)`, `np.min(a)` | Largest/smallest |
-| Absolute value | `np.abs(a)` | Element-wise |a[i]| |
-| Solve Ax=b | `np.linalg.solve(A, b)` | Solution vector x |
+| What you want | Code |
+|---------------|------|
+| Add arrays | `a + b` |
+| Multiply by scalar | `a * 3` |
+| Element-wise multiply | `a * b` |
+| Power | `a ** 2` |
+| Sum all elements | `np.sum(a)` |
+| Mean | `np.mean(a)` |
+| Max / Min | `np.max(a)`, `np.min(a)` |
+| Absolute value | `np.abs(a)` |
+| Trig / Exp / Log | `np.sin(a)`, `np.exp(a)`, `np.log(a)` |
+| Solve Ax = b | `np.linalg.solve(A, b)` |
+
+---
+
+## What's Next?
+
+You now have the core NumPy skills for numerical methods:
+- Create arrays of any size
+- Do math on entire arrays at once
+- Access slices for neighbor operations
+
+As you progress through the course, you'll use these patterns for:
+- **Euler's method**: update velocity array each timestep
+- **Finite differences**: use slicing for neighbor access  
+- **Linear systems**: set up and solve matrix equations
+
+For additional utilities like reshaping, random numbers, and sorting, see [Useful Functions](useful_functions.md).
